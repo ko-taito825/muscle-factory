@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  supabaseUserId String   @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  routines       Routine[]
+}
+
+model Routine {
+  id     Int @id @default(autoincrement())
+  title String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId Int
+
+  user        User      @relation(fields: [userId], references: [id])
+
+  trainings Training[]
+
+}
+
+model Training {
+  id          Int      @id @default(autoincrement())
+  title       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  routineId   Int
+  routine     Routine  @relation(fields: [routineId], references: [id],onDelete: Cascade)
+  sets        Set[]
+}
+
+model Set {
+  id          Int      @id @default(autoincrement())
+  weight      Float
+  reps        Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  trainingId  Int
+  training    Training @relation(fields: [trainingId], references: [id],onDelete: Cascade)
+}

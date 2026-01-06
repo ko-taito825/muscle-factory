@@ -14,14 +14,53 @@
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  body {
+    color: #ededed;
+    background-color: #000;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    position: relative;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("/images/o-app-background-image.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -20;
+
+    @media (min-width: 1024px) {
+      background-image: url("/images/o-app-background-image-ps.jpg");
+      background-size: cover;
+    }
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+
+    z-index: -10;
+    pointer-events: none;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+/* Chrome, Safari, Edge, Opera のスピンボタンを消す */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox のスピンボタンを消す */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
