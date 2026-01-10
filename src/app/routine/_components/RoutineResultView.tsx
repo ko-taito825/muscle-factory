@@ -7,13 +7,6 @@ export default function RoutineResultView({
 }: {
   routine: RoutineLogs;
 }) {
-  if (!routine || !routine.trainings) {
-    return (
-      <div className="text-gray-500 text-center py-10">
-        トレーニングが見つかりません
-      </div>
-    );
-  }
   return (
     <div>
       <div className="space-y-8 pb-40">

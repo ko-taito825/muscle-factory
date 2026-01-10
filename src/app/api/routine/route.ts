@@ -3,10 +3,6 @@ import { RoutineFormValues } from "@/app/_types/RoutineValue";
 import { supabase } from "@/utils/supabase";
 import { NextRequest, NextResponse } from "next/server";
 
-interface CreateRoutineRequest extends RoutineFormValues {
-  userId: number;
-}
-
 async function getAuthenticatedDbUserId(token: string) {
   const {
     data: { user },
@@ -37,7 +33,7 @@ export const POST = async (request: NextRequest) => {
       { status: 401 }
     );
   try {
-    const body: CreateRoutineRequest = await request.json();
+    const body: RoutineFormValues = await request.json();
     console.log("body", body);
     const { title, trainings } = body;
     const data = await prisma.routine.create({

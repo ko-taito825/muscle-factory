@@ -7,6 +7,7 @@ export interface RoutineFormValues {
       reps: string;
     }[];
   }[];
+  userId: number;
 }
 export type SetValue = {
   weight: string;
