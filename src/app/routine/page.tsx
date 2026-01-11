@@ -2,13 +2,13 @@
 import React from "react";
 import { useFetch } from "../_hooks/useFetch";
 import Link from "next/link";
-import { Plus, Home, Dumbbell, FileText } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useSupabaseSession } from "../_hooks/useSupabaseSession";
-import { Routine } from "../_types/Routine";
+import { Routines } from "../_types/Routines";
 
 export default function MyRoutinePage() {
   const { token } = useSupabaseSession();
-  const { data, error, isLoading } = useFetch<Routine[]>(
+  const { data, error, isLoading } = useFetch<Routines[]>(
     token ? "/api/routine" : null
   );
 
@@ -24,7 +24,7 @@ export default function MyRoutinePage() {
         </h1>
 
         <div className="flex flex-col gap-6 mb-16 items-center">
-          {data?.map((routine: Routine) => (
+          {data?.map((routine: Routines) => (
             <Link
               key={routine.id}
               href={`/routine/${routine.id}`}

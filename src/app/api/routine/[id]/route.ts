@@ -1,5 +1,7 @@
 //GET
 import { prisma } from "@/app/_lib/prisma";
+import { Routines } from "@/app/_types/Routines";
+import { RoutineFormValues } from "@/app/_types/RoutineValue";
 import { supabase } from "@/utils/supabase";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -32,7 +34,10 @@ export const GET = async (
         { status: 404 }
       );
     }
-    return NextResponse.json({ routine }, { status: 200 });
+    return NextResponse.json<{ routine: Routines }>(
+      { routine: routine as Routines },
+      { status: 200 }
+    );
   } catch (error) {
     if (error instanceof Error)
       return NextResponse.json({ status: error.message }, { status: 400 });
@@ -50,7 +55,8 @@ export const PUT = async (
   if (error)
     return NextResponse.json({ status: error.message }, { status: 400 });
   const { id } = params;
-  const { title, trainings } = await request.json(); //フロントから届くデータ
+  const body: RoutineFormValues = await request.json();
+  const { title, trainings } = body; //フロントから届くデータ
 
   try {
     const routine = await prisma.$transaction(async (tx) => {
@@ -63,12 +69,12 @@ export const PUT = async (
         data: {
           title: title,
           trainings: {
-            create: trainings.map((training: any) => ({
+            create: trainings.map((training) => ({
               title: training.title,
               sets: {
-                create: training.sets.map((set: any) => ({
-                  weight: set.weight,
-                  reps: set.reps,
+                create: training.sets.map((set) => ({
+                  weight: parseFloat(set.weight) || 0,
+                  reps: parseInt(set.reps) || 0,
                 })),
               },
             })),
@@ -77,7 +83,7 @@ export const PUT = async (
         include: { trainings: { include: { sets: true } } },
       });
     });
-    return NextResponse.json(routine, { status: 200 });
+    return NextResponse.json<Routines>(routine as Routines, { status: 200 });
   } catch (error) {
     console.error("PUT Error:", error);
     if (error instanceof Error)
