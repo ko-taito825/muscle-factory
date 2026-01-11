@@ -1,14 +1,7 @@
-export interface Routine {
-  id: string;
-  title: string;
-  userId: number;
-  createdAt: string;
-  trainings?: any[];
-}
 export interface Set {
   id: number;
-  weight: string;
-  reps: string;
+  weight: number;
+  reps: number;
 }
 export interface Training {
   id: number;

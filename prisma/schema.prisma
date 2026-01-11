@@ -19,38 +19,80 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  routines       Routine[]
+  routines    Routine[]
+  workoutLogs WorkoutLog[]
 }
 
 model Routine {
-  id     Int @id @default(autoincrement())
-  title String
+  id        Int      @id @default(autoincrement())
+  title     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  userId Int
+  userId    Int
 
-  user        User      @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 
   trainings Training[]
 
+  workoutLogs WorkoutLog[]
 }
 
 model Training {
-  id          Int      @id @default(autoincrement())
-  title       String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  routineId   Int
-  routine     Routine  @relation(fields: [routineId], references: [id],onDelete: Cascade)
-  sets        Set[]
+  id        Int      @id @default(autoincrement())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  routineId Int
+  routine   Routine  @relation(fields: [routineId], references: [id], onDelete: Cascade)
+  sets      Set[]
 }
 
 model Set {
-  id          Int      @id @default(autoincrement())
-  weight      Float
-  reps        Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  trainingId  Int
-  training    Training @relation(fields: [trainingId], references: [id],onDelete: Cascade)
+  id         Int      @id @default(autoincrement())
+  weight     Float
+  reps       Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  trainingId Int
+  training   Training @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+}
+
+model WorkoutLog {
+  id        Int      @id @default(autoincrement())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  routineId Int?
+  routine   Routine? @relation(fields: [routineId], references: [id], onDelete: SetNull)
+
+  trainingLogs TrainingLog[]
+}
+
+model TrainingLog {
+  id         Int      @id @default(autoincrement())
+  name       String
+  orderIndex Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  workoutLogId Int
+  workoutLog   WorkoutLog @relation(fields: [workoutLogId], references: [id], onDelete: Cascade)
+
+  setLogs SetLog[]
+}
+
+model SetLog {
+  id         Int      @id @default(autoincrement())
+  weight     Float
+  reps       Int
+  orderIndex Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  trainingLogId Int
+  trainingLog   TrainingLog @relation(fields: [trainingLogId], references: [id], onDelete: Cascade)
 }
