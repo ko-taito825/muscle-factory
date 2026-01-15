@@ -73,8 +73,8 @@ export const PUT = async (
               title: training.title,
               sets: {
                 create: training.sets.map((set) => ({
-                  weight: parseFloat(set.weight) || 0,
-                  reps: parseInt(set.reps) || 0,
+                  weight: parseFloat(String(set.weight)) || 0,
+                  reps: parseInt(String(set.reps)) || 0,
                 })),
               },
             })),

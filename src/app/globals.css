@@ -42,25 +42,154 @@
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.7);
-
     z-index: -10;
     pointer-events: none;
   }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-/* Chrome, Safari, Edge, Opera のスピンボタンを消す */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+/* --- react-calendar 決定版スタイル --- */
+
+.react-calendar {
+  width: 100% !important;
+  margin: 0 auto !important;
+  background-color: rgba(0, 0, 0, 0.85) !important;
+  border: 1.5px solid #d4af37 !important;
+  border-radius: 16px;
+  font-family: sans-serif;
+  color: white !important;
+  font-weight: 700 !important;
+  backdrop-filter: blur(10px);
+  max-width: 380px !important;
+  padding: 10px;
 }
 
-/* Firefox のスピンボタンを消す */
+@media (min-width: 1024px) {
+  .react-calendar {
+    max-width: 550px !important;
+    padding: 25px;
+    border-width: 2px !important;
+  }
+}
+
+/* 週末の色リセット */
+.react-calendar__month-view__days__day--weekend {
+  color: white !important;
+}
+
+/* ナビゲーション */
+.react-calendar__navigation {
+  display: flex;
+  height: 50px !important;
+  margin-bottom: 15px !important;
+}
+.react-calendar__navigation button {
+  color: white !important;
+  background: none !important;
+  font-size: 1.2rem;
+  font-weight: 800 !important;
+}
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+  display: none !important;
+}
+
+/* 曜日ラベル */
+.react-calendar__month-view__weekdays {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 800 !important;
+  font-size: 0.75rem;
+  color: #ffffff !important;
+  padding-bottom: 15px;
+}
+.react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none !important;
+}
+
+/* --- 日付タイル（1マス）の設定 --- */
+.react-calendar__tile {
+  background: none !important;
+  color: white !important;
+  font-weight: 700 !important;
+  display: flex !important;
+  flex-direction: column !important; /* 縦並び */
+  align-items: center !important; /* 左右中央 */
+  justify-content: flex-start !important; /* 日付を上に固定 */
+  height: 65px !important; /* 高さを固定して列を揃える */
+  padding: 8px 0 !important;
+  border: 2px solid transparent !important; /* 選択時のズレ防止 */
+  transition: all 0.2s ease;
+}
+
+@media (min-width: 1024px) {
+  .react-calendar__tile {
+    height: 85px !important;
+  }
+}
+
+/* 日付の数字部分 */
+.react-calendar__tile abbr {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+/* --- 選択された日の「赤い長方形」 --- */
+.react-calendar__tile--active {
+  background: transparent !important; /* 赤塗りを消す */
+  border: 2px solid #ff3b30 !important; /* 赤い線の枠 */
+  border-radius: 8px !important; /* 長方形の角を少し丸く */
+  color: white !important;
+}
+
+/* 今日の日付（ゴールドの枠など、選択と区別すると見やすい） */
+.react-calendar__tile--now {
+  border-radius: 8px !important;
+}
+
+/* ホバー時の微かな反応 */
+.react-calendar__tile:enabled:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px;
+}
+
+/* 隣接月を隠す */
+.react-calendar__month-view__days__day--neighboringMonth {
+  visibility: hidden;
+}
+
+/* タイル内のトレーニング名（Leg Dayなど） */
+/* MyCalendar.tsx の getTitleContent で使うクラス */
+.routine-label {
+  font-size: 9px;
+  color: #d4af37;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-top: auto; /* マスの一番下に配置 */
+  padding-bottom: 4px;
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- 今日の日付（数字の色を黄色にする） --- */
+.react-calendar__tile--now abbr {
+  color: #d4af37 !important; /* 数字の色をゴールド（黄色）に変更 */
+  font-weight: 900 !important; /* より強調するために太く */
+}
+
+/* globals.css に追記・修正 */
+
+/* Chrome, Safari, Edge, Opera 用 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important; /* 強制的に消す */
+  margin: 0 !important;
+}
+
+/* Firefox 用 */
 input[type="number"] {
-  -moz-appearance: textfield;
+  -moz-appearance: textfield !important; /* 強制的に消す */
 }

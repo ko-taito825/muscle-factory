@@ -34,7 +34,7 @@ export default function page() {
 
   const onSubmit = async (data: RoutineFormValues) => {
     try {
-      const res = await fetch("/api/routine", {
+      const res = await fetch("/api/routines", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

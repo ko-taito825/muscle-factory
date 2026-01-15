@@ -1,14 +1,14 @@
 "use client";
 import { useFetch } from "@/app/_hooks/useFetch";
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
-import { RoutineFormValues, TrainingValue } from "@/app/_types/RoutineValue";
+import { RoutineFormValues } from "@/app/_types/RoutineValue";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import RoutineTitleInput from "../_components/RoutineTitleInput";
 import TrainingList from "../_components/TrainingList";
-import { RoutineForm } from "@/app/_types/Routine";
+import { RoutineForm, Training } from "@/app/_types/Routine";
 
 export default function page() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export default function page() {
   const { token } = useSupabaseSession();
 
   const { data, isLoading } = useFetch<{ routine: RoutineForm }>(
-    token ? `/api/routine/${id}` : null
+    token ? `/api/routines/${id}` : null
   );
   const methods = useForm<RoutineFormValues>({
     defaultValues: {
@@ -34,7 +34,7 @@ export default function page() {
   useEffect(() => {
     if (data?.routine) {
       const resetTrainings = data.routine.trainings.map(
-        (training: TrainingValue) => ({
+        (training: Training) => ({
           ...training,
           sets: training.sets.map(() => ({
             weight: "",
@@ -60,7 +60,7 @@ export default function page() {
           })),
         })),
       };
-      const res = await fetch(`/api/routine/${id}`, {
+      const res = await fetch(`/api/routines/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -77,7 +77,7 @@ export default function page() {
   };
   const handleDelete = async () => {
     if (!confirm("ルーティンを削除しますか？")) return;
-    await fetch(`/api/routine/${id}`, {
+    await fetch(`/api/routines/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: token ?? "",

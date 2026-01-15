@@ -1,4 +1,5 @@
 import { prisma } from "@/app/_lib/prisma";
+import { Routines } from "@/app/_types/Routines";
 import { RoutineFormValues } from "@/app/_types/RoutineValue";
 import { supabase } from "@/utils/supabase";
 import { NextRequest, NextResponse } from "next/server";
@@ -53,7 +54,7 @@ export const POST = async (request: NextRequest) => {
         },
       },
     });
-    return NextResponse.json(data, { status: 201 });
+    return NextResponse.json<Routines>(data, { status: 201 });
   } catch (error: any) {
     console.error("エラー", error);
     return NextResponse.json(
@@ -76,21 +77,24 @@ export const GET = async (request: NextRequest) => {
       { message: "ログインが必要です" },
       { status: 400 }
     );
+  const { searchParams } = new URL(request.url);
+  const mode = searchParams.get("mode");
   try {
-    const routines = await prisma.routine.findMany({
-      where: {
-        userId: dbUserId,
-      },
-      include: {
-        trainings: {
-          include: { sets: true },
-        },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
+    if (mode === "summary") {
+      const summaryRoutines = await prisma.routine.findMany({
+        where: { userId: dbUserId },
+        select: { id: true, title: true, createdAt: true },
+        orderBy: { createdAt: "desc" },
+      });
+      return NextResponse.json<Routines[]>(summaryRoutines, { status: 200 });
+    }
+    const fullsRoutines = await prisma.routine.findMany({
+      where: { userId: dbUserId },
+      include: { trainings: { include: { sets: true } } },
+      orderBy: { createdAt: "desc" },
     });
-    return NextResponse.json(routines, { status: 200 });
+
+    return NextResponse.json<Routines[]>(fullsRoutines, { status: 200 });
   } catch (error: any) {
     return NextResponse.json(
       { message: "取得に失敗しました" },

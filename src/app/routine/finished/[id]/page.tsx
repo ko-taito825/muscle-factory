@@ -14,7 +14,7 @@ export default function page() {
   const router = useRouter();
 
   const { data, isLoading } = useFetch<{ routine: RoutineLogs }>(
-    token ? `/api/routine/${id}` : null
+    token ? `/api/routines/${id}` : null
   );
   if (isLoading)
     return <div className="text-white p-10 text-center">読み込み中...</div>;

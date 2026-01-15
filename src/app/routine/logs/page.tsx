@@ -8,7 +8,7 @@ import React, { useMemo } from "react";
 export default function page() {
   const { token } = useSupabaseSession();
   const { data, error, isLoading } = useFetch<RoutineLogs[]>(
-    token ? "/api/routine" : null
+    token ? "/api/routines" : null
   );
 
   const latestRoutines = useMemo(() => {

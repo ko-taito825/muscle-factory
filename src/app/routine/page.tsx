@@ -9,7 +9,7 @@ import { Routines } from "../_types/Routines";
 export default function MyRoutinePage() {
   const { token } = useSupabaseSession();
   const { data, error, isLoading } = useFetch<Routines[]>(
-    token ? "/api/routine" : null
+    token ? "/api/routines" : null
   );
 
   if (error) return <div className="text-white p-10">取得に失敗しました</div>;

@@ -13,7 +13,7 @@ export default function page() {
   const router = useRouter();
 
   const { data, isLoading } = useFetch<{ routine: RoutineLogs }>(
-    token ? `/api/routine/${id}` : null
+    token ? `/api/routines/${id}` : null
   );
 
   if (isLoading)
