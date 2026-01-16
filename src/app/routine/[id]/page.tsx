@@ -9,6 +9,7 @@ import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import RoutineTitleInput from "../_components/RoutineTitleInput";
 import TrainingList from "../_components/TrainingList";
 import { RoutineForm, Training } from "@/app/_types/Routine";
+import { workoutLogRequset } from "@/app/_types/WorkoutLog";
 
 export default function page() {
   const router = useRouter();
@@ -48,33 +49,41 @@ export default function page() {
       });
     }
   }, [data, reset]);
+
   const onSubmit = async (data: RoutineFormValues) => {
     try {
-      const cleanedData = {
+      const cleanedData: workoutLogRequset = {
+        routineId: Number(id),
         title: data.title,
-        trainings: data.trainings.map((training) => ({
-          title: training.title,
-          sets: training.sets.map((set) => ({
+        trainingLogs: data.trainings.map((training, trainingIndex) => ({
+          name: training.title,
+          orderIndex: trainingIndex,
+          setLogs: training.sets.map((set, setIndex) => ({
             weight: parseFloat(set.weight) || 0,
             reps: parseInt(set.reps) || 0,
+            orderIndex: setIndex,
           })),
         })),
       };
-      const res = await fetch(`/api/routines/${id}`, {
-        method: "PUT",
+      const res = await fetch("/api/workout-logs", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: token ?? "",
         },
         body: JSON.stringify(cleanedData),
       });
-      if (!res.ok) throw new Error("更新失敗");
-      alert("ルーティンを更新しました");
-      router.push(`/routine/finished/${id}`);
+      if (!res.ok) throw new Error("新規保存失敗");
+
+      const result = await res.json();
+
+      alert("今日のトレーニングを記録しました");
+      router.push(`/routine/finished/${result.id}`);
     } catch (e) {
       alert("更新に失敗しました");
     }
   };
+
   const handleDelete = async () => {
     if (!confirm("ルーティンを削除しますか？")) return;
     await fetch(`/api/routines/${id}`, {
@@ -92,7 +101,7 @@ export default function page() {
     <FormProvider {...methods}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full p-4 md:max-w-2xl md:mx-auto md:px-0 pb-40 text-white"
+        className="w-full px-4 mx-auto max-w-[380px] lg:max-w-[550px] pb-40 text-white"
       >
         <div className="flex justify-between items-center mb-12 mt-10">
           <h1 className="text-yellow-500 text-4xl font-black tracking-tighter">
@@ -126,16 +135,16 @@ export default function page() {
             <span>+</span>Add Training
           </button>
         </div>
-        <div className="fixed bottom-24 left-0 w-full z-50 pointer-events-none">
-          <div className="w-full px-8 md:max-w-2xl md:mx-auto flex justify-between items-center pointer-events-auto">
+        <div className="fixed bottom-24 left-0 w-full z-50 pointer-events-none md:pl-64">
+          <div className="w-full px-4 mx-auto max-w-[380px] lg:max-w-[550px] flex justify-between items-center pointer-events-auto">
             <button
               type="button"
-              onClick={() => router.push("/routine")}
+              onClick={() => router.push("/")}
               className="h-14 px-8 
         rounded-full border-4 border-yellow-500 
-        bg-black/60 text-yellow-500 
+        bg-black/90 text-yellow-500 
         text-xl font-black tracking-tighter
-        shadow-[0_0_15px_rgba(234,179,8,0.2)] 
+        shadow-[0_0_20px_rgba(234,179,8,0.4)] 
         active:scale-90 transition-transform"
             >
               戻る
@@ -146,9 +155,9 @@ export default function page() {
               className="
         h-14 px-8 
         rounded-full border-4 border-yellow-500 
-        bg-black/60 text-yellow-500 
+        bg-black/90 text-yellow-500 
         text-xl font-black tracking-tighter
-        shadow-[0_0_15px_rgba(234,179,8,0.2)] 
+        shadow-[0_0_20px_rgba(234,179,8,0.4)] 
         active:scale-90 transition-transform
       "
             >

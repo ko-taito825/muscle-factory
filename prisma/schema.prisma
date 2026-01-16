@@ -30,6 +30,7 @@ model Routine {
   updatedAt DateTime @updatedAt
   userId    Int
 
+isDeleted Boolean  @default(false)
   user User @relation(fields: [userId], references: [id])
 
   trainings Training[]

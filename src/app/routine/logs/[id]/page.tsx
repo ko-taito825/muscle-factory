@@ -6,34 +6,29 @@ import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React from "react";
 import RoutineResultView from "../../_components/RoutineResultView";
+import { workoutLogReponse } from "@/app/_types/WorkoutLog";
 
 export default function page() {
   const { id } = useParams();
   const { token } = useSupabaseSession();
   const router = useRouter();
 
-  const { data, isLoading } = useFetch<{ routine: RoutineLogs }>(
-    token ? `/api/routines/${id}` : null
+  const { data, isLoading } = useFetch<workoutLogReponse>(
+    token ? `/api/workout-logs/${id}?mode=routine` : null
   );
-
   if (isLoading)
-    return (
-      <div className="text-white p-10 font-black italic">読み込み中...</div>
-    );
-  if (!data)
+    return <div className="text-white p-10 font-black">読み込み中...</div>;
+  if (!data?.routine)
     return <div className="text-white p-10">ルーティンが見つかりません</div>;
-  //トレーニングデータ（RoutineLogs型）をroutineDataに格納
+  //トレーニングデータ（workoutLogReponse型）をroutineDataに格納
   const routineData = data?.routine;
-  const formattedData = new Date(routineData.updatedAt).toLocaleDateString(
+  const formattedData = new Date(routineData.createdAt).toLocaleDateString(
     "ja-JP",
     {
       month: "numeric",
       day: "numeric",
     }
   );
-
-  if (!routineData)
-    return <div className="text-white p-10">データが見つかりません</div>;
   return (
     <div className="min-h-screen bg-black p-6 pb-40 relative">
       <div className="w-full p-4 md:max-w-2xl md:mx-auto md:px-0 pb-40 text-white">

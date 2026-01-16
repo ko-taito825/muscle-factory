@@ -7,14 +7,15 @@ import React from "react";
 import RoutineResultView from "../../_components/RoutineResultView";
 import { RoutineLogs } from "@/app/_types/RoutineLogs";
 import Link from "next/link";
+import { workoutLogReponse, workoutLogRequset } from "@/app/_types/WorkoutLog";
 
 export default function page() {
   const { id } = useParams();
   const { token } = useSupabaseSession();
   const router = useRouter();
 
-  const { data, isLoading } = useFetch<{ routine: RoutineLogs }>(
-    token ? `/api/routines/${id}` : null
+  const { data, isLoading } = useFetch<workoutLogReponse>(
+    token ? `/api/workout-logs/${id}` : null
   );
   if (isLoading)
     return <div className="text-white p-10 text-center">読み込み中...</div>;
@@ -32,7 +33,7 @@ export default function page() {
         <h2 className="text-2xl font-bold mb-8 text-gray-200">
           {routine.title}
         </h2>
-        <RoutineResultView routine={data.routine} />
+        <RoutineResultView routine={routine} />
         <div className="mt-16 flex flex-col items-center gap-12">
           <span className="text-yellow-500 text-3xl font-black tracking-tighter">
             NICE TRAINING!!

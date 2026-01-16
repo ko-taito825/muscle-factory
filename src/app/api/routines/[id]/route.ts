@@ -38,7 +38,7 @@ export const GET = async (
       { routine: routine as Routines },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error:unknown) {
     if (error instanceof Error)
       return NextResponse.json({ status: error.message }, { status: 400 });
   }
@@ -84,7 +84,7 @@ export const PUT = async (
       });
     });
     return NextResponse.json<Routines>(routine as Routines, { status: 200 });
-  } catch (error) {
+  } catch (error:unknown) {
     console.error("PUT Error:", error);
     if (error instanceof Error)
       return NextResponse.json({ status: error.message }, { status: 400 });
@@ -107,7 +107,7 @@ export const DELETE = async (
       },
     });
     return NextResponse.json({ status: "OK" }, { status: 200 });
-  } catch (error) {
+  } catch (error:unknown) {
     if (error instanceof Error)
       return NextResponse.json({ status: error.message }, { status: 400 });
   }

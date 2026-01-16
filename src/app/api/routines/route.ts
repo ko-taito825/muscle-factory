@@ -95,7 +95,7 @@ export const GET = async (request: NextRequest) => {
     });
 
     return NextResponse.json<Routines[]>(fullsRoutines, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
       { message: "取得に失敗しました" },
       { status: 500 }

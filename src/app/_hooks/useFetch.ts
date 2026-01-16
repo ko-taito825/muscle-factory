@@ -4,7 +4,7 @@ import { useSupabaseSession } from "./useSupabaseSession";
 export const useFetch = <T>(url: string | null) => {
   const { token } = useSupabaseSession();
 
-  // 💡 どこで止まっているかコンソールに出す
+  // どこで止まっているかコンソールに出す
   console.log(" useFetchの状態 - url:", url, " tokenがあるか:", !!token);
 
   const fetcher = async ([url, token]: [string, string]) => {
@@ -23,14 +23,14 @@ export const useFetch = <T>(url: string | null) => {
     }
 
     const json = await res.json();
-    console.log("APIから届いた生データ:", json);
+    console.log("APIから届いたデータ:", json);
     return json as T;
   };
 
   const { data, error, isLoading } = useSWR<T>(
     // url と token が両方揃った時だけ実行する
     url && token ? [url, token] : null,
-    fetcher
+    fetcher,
   );
 
   return { data, error, isLoading };

@@ -7,51 +7,53 @@ import { Routines } from "@/app/_types/Routines";
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 import { useFetch } from "@/app/_hooks/useFetch";
 import RoutineDetailCard from "./RoutineDetailCard";
+import { WorkoutLog } from "@/app/_types/WorkoutLog";
+
+const isSameDay = (a: Date, b: Date) =>
+  a.getFullYear() === b.getFullYear() &&
+  a.getMonth() === b.getMonth() &&
+  a.getDate() === b.getDate();
 
 export default function MyCalendar() {
   const { token } = useSupabaseSession();
-  const { data: summaryRoutines, isLoading } = useFetch<Routines[]>(
-    token ? "/api/routines?mode=summary" : null
+  const { data: summaryLogs, isLoading } = useFetch<Routines[]>(
+    token ? "/api/workout-logs?mode=summary" : null,
   );
 
-  const [detailRoutines, setDetailRoutines] = useState<Routines | null>(null); //トレーニングの詳細表示
+  const [detailLog, setDetailLog] = useState<WorkoutLog | null>(null); //トレーニングの詳細表示
   const [isFetchingDetail, setIsFetchingDetail] = useState(false);
   //handleDayClickはDate型しか受け取らない
   const handleDayClick = async (date: Date) => {
-    if (!summaryRoutines) return;
+    if (!summaryLogs) return;
     //クリックされた日付にデータがあるか一覧から探す関数
-    const target = summaryRoutines.find(
-      (r) => new Date(r.createdAt).toDateString() === date.toDateString()
+    const target = summaryLogs.find((l) =>
+      isSameDay(new Date(l.createdAt), date),
     ); //APIの createdAt の日付 ＝ カレンダーで選んだ日付
     if (target) {
       setIsFetchingDetail(true);
       try {
-        const res = await fetch(`/api/routines/${target.id}`, {
+        const res = await fetch(`/api/workout-logs/${target.id}`, {
           headers: { Authorization: token ?? "" },
         });
         const detail = await res.json();
-        setDetailRoutines(detail.routine);
+        setDetailLog(detail);
       } catch (e) {
         console.error("詳細の取得に失敗しました");
       } finally {
         setIsFetchingDetail(false);
       }
     } else {
-      setDetailRoutines(null); //記録がない日はなにも表示しない
+      setDetailLog(null); //記録がない日はなにも表示しない
     }
   };
   //カレンダーの各マスにタイトルを表示する関数
   const getTitleContent = ({ date, view }: { date: Date; view: string }) => {
-    if (view !== "month" || !summaryRoutines) return null;
-    const routine = summaryRoutines.find(
-      (r) => new Date(r.createdAt).toDateString() === date.toDateString()
-    );
-    return routine ? <div>{routine.title}</div> : null;
+    if (view !== "month" || !summaryLogs) return null;
+    const log = summaryLogs.find((l) => isSameDay(new Date(l.createdAt), date));
+    return log ? <div>{log.title}</div> : null;
   };
   if (isLoading) return <div>読み込み中...</div>;
-
-  // MyCalendar.tsx の return の直前
-  console.log("一覧データ:", summaryRoutines);
+  console.log("summaryLogsの中身:", summaryLogs);
   return (
     <div className="flex flex-col items-center w-full pt-12 pb-8 px-4">
       <Calendar
@@ -60,7 +62,10 @@ export default function MyCalendar() {
         onClickDay={handleDayClick}
         tileContent={getTitleContent}
       />
-      <RoutineDetailCard detail={detailRoutines} loading={isFetchingDetail} />
+      <div className="w-full mt-8 max-w-[380px] lg:max-w-[550px]">
+        <RoutineDetailCard detail={detailLog} loading={isFetchingDetail} />
+      </div>
+
       <Link
         className="mt-20 w-full max-w-[260px] bg-[#d4af37] text-black font-extrabold py-4 px-8 rounded-full shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:bg-[#e5c158] active:scale-95 transition-all duration-200 uppercase tracking-widest text-lg"
         href="/routine"
