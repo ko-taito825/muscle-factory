@@ -1,18 +1,6 @@
+import { getAuthenticatedDbUserId } from "@/app/_lib/auth";
 import { prisma } from "@/app/_lib/prisma";
-import { supabase } from "@/utils/supabase";
 import { NextRequest, NextResponse } from "next/server";
-
-async function getAuthenticatedDbUserId(token: string) {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser(token);
-  if (error || !user) return null;
-  const dbUser = await prisma.user.findUnique({
-    where: { supabaseUserId: user.id },
-  });
-  return dbUser ? dbUser.id : null;
-}
 
 //「特定のルーティン専用のフィルター」特定のルーティンの過去の記録を全部欲しい時に使う
 export const GET = async (

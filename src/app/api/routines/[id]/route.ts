@@ -1,23 +1,11 @@
 //routines/[id]で「UXは更新（PUT）のように見せて、裏側のデータ（DB）は履歴（POST）として積み上げている」設計のAPIを書く
 
+import { getAuthenticatedDbUserId } from "@/app/_lib/auth";
 import { prisma } from "@/app/_lib/prisma";
 import { RoutineDetail } from "@/app/_types/RoutineDetail";
-import { Routines } from "@/app/_types/Routines";
 import { RoutineFormValues } from "@/app/_types/RoutineValue";
 import { supabase } from "@/utils/supabase";
 import { NextRequest, NextResponse } from "next/server";
-
-async function getAuthenticatedDbUserId(token: string) {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser(token);
-  if (error || !user) return null;
-  const dbUser = await prisma.user.findUnique({
-    where: { supabaseUserId: user.id },
-  });
-  return dbUser ? dbUser.id : null;
-}
 
 //選択されたルーティンの「前回の内容」を取得
 export const GET = async (

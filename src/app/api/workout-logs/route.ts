@@ -1,20 +1,8 @@
+import { getAuthenticatedDbUserId } from "@/app/_lib/auth";
 import { prisma } from "@/app/_lib/prisma";
 import { Routines } from "@/app/_types/Routines";
-import { workoutLogRequset } from "@/app/_types/WorkoutLog";
-import { supabase } from "@/utils/supabase";
 import { NextRequest, NextResponse } from "next/server";
 
-async function getAuthenticatedDbUserId(token: string) {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser(token);
-  if (error || !user) return null;
-  const dbUser = await prisma.user.findUnique({
-    where: { supabaseUserId: user.id },
-  });
-  return dbUser ? dbUser.id : null;
-}
 //カレンダーに表示するために全ての日付ログを取得する
 export const GET = async (request: NextRequest) => {
   const token = request.headers.get("Authorization") ?? "";
