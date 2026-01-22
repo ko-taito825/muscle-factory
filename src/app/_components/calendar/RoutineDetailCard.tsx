@@ -1,7 +1,7 @@
 "use client";
 import { Routines } from "@/app/_types/Routines";
 import { WorkoutLog } from "@/app/_types/WorkoutLog";
-import RoutineResultView from "@/app/routine/_components/RoutineResultView";
+import RoutineResultView from "@/app/routines/_components/RoutineResultView";
 import React from "react";
 
 interface Props {

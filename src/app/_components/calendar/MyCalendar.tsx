@@ -36,7 +36,7 @@ export default function MyCalendar() {
           headers: { Authorization: token ?? "" },
         });
         const detail = await res.json();
-        setDetailLog(detail);
+        setDetailLog(detail.routine);
       } catch (e) {
         console.error("詳細の取得に失敗しました");
       } finally {
@@ -50,7 +50,7 @@ export default function MyCalendar() {
   const getTitleContent = ({ date, view }: { date: Date; view: string }) => {
     if (view !== "month" || !summaryLogs) return null;
     const log = summaryLogs.find((l) => isSameDay(new Date(l.createdAt), date));
-    return log ? <div>{log.title}</div> : null;
+    return log ? <div className="text-red-600">{log.title}</div> : null;
   };
   if (isLoading) return <div>読み込み中...</div>;
   console.log("summaryLogsの中身:", summaryLogs);
@@ -68,7 +68,7 @@ export default function MyCalendar() {
 
       <Link
         className="mt-20 w-full max-w-[260px] bg-[#d4af37] text-black font-extrabold py-4 px-8 rounded-full shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:bg-[#e5c158] active:scale-95 transition-all duration-200 uppercase tracking-widest text-lg"
-        href="/routine"
+        href="/routines"
       >
         Training Start
       </Link>

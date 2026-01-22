@@ -16,13 +16,13 @@ export default function Sidebar() {
       <nav className="flex flex-col space-y-10 items-start">
         <NavItem href="/" icon={<Home size={28} />} label="Home" />
         <NavItem
-          href="/routine"
+          href="/routines"
           icon={<Dumbbell size={28} />}
           label="Routine"
         />
-        <NavItem href="/routine/new" icon={<Plus size={28} />} label="New" />
+        <NavItem href="/routines/new" icon={<Plus size={28} />} label="New" />
         <NavItem
-          href="/routine/logs"
+          href="/routines/logs"
           icon={<TableProperties size={28} />}
           label="Logs"
         />

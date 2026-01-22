@@ -8,16 +8,16 @@ import React, { useEffect } from "react";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import RoutineTitleInput from "../_components/RoutineTitleInput";
 import TrainingList from "../_components/TrainingList";
-import { RoutineForm, Training } from "@/app/_types/Routine";
 import { workoutLogRequset } from "@/app/_types/WorkoutLog";
+import { RoutineDetail } from "@/app/_types/RoutineDetail";
 
 export default function page() {
   const router = useRouter();
   const { id } = useParams();
   const { token } = useSupabaseSession();
 
-  const { data, isLoading } = useFetch<{ routine: RoutineForm }>(
-    token ? `/api/routines/${id}` : null
+  const { data, isLoading } = useFetch<RoutineDetail>(
+    token ? `/api/routines/${id}` : null,
   );
   const methods = useForm<RoutineFormValues>({
     defaultValues: {
@@ -33,20 +33,29 @@ export default function page() {
   });
 
   useEffect(() => {
-    if (data?.routine) {
-      const resetTrainings = data.routine.trainings.map(
-        (training: Training) => ({
-          ...training,
+    if (data) {
+      const latestLog = data.workoutLogs?.[0]; //最新のテンプレートを取得(0番目)
+
+      if (latestLog) {
+        //ログがある場合はその種目をコピー
+        const ressetTrainings = latestLog.trainings.map((training) => ({
+          title: training.title,
           sets: training.sets.map(() => ({
             weight: "",
             reps: "",
           })),
-        })
-      );
-      reset({
-        title: data.routine.title,
-        trainings: resetTrainings,
-      });
+        }));
+        reset({
+          title: data.title,
+          trainings: ressetTrainings,
+        });
+      } else {
+        //過去にログが一度もない新規ルーティンの場合
+        reset({
+          title: data.title,
+          trainings: [],
+        });
+      }
     }
   }, [data, reset]);
 
@@ -54,18 +63,17 @@ export default function page() {
     try {
       const cleanedData: workoutLogRequset = {
         routineId: Number(id),
-        title: data.title,
-        trainingLogs: data.trainings.map((training, trainingIndex) => ({
-          name: training.title,
-          orderIndex: trainingIndex,
-          setLogs: training.sets.map((set, setIndex) => ({
+        title: data.title, //ログのタイトル（スナップショット）
+        trainings: data.trainings.map((training) => ({
+          title: training.title,
+          sets: training.sets.map((set) => ({
             weight: parseFloat(set.weight) || 0,
             reps: parseInt(set.reps) || 0,
-            orderIndex: setIndex,
           })),
         })),
       };
-      const res = await fetch("/api/workout-logs", {
+      const res = await fetch(`/api/routines/${id}/workoutlogs`, {
+        //元々"/api/workout-logs"
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,7 +86,7 @@ export default function page() {
       const result = await res.json();
 
       alert("今日のトレーニングを記録しました");
-      router.push(`/routine/finished/${result.id}`);
+      router.push(`/routines/finished/${result.id}`);
     } catch (e) {
       alert("更新に失敗しました");
     }
@@ -93,7 +101,7 @@ export default function page() {
       },
     });
     alert("ルーティンを削除しました");
-    router.push("/routine");
+    router.push("/routines");
   };
   if (isLoading)
     return <div className="text-white p-10 text-center">読み込み中...</div>;

@@ -8,24 +8,16 @@ async function getAuthenticatedDbUserId(token: string) {
     error,
   } = await supabase.auth.getUser(token);
   if (error || !user) return null;
-
-  // upsert
-  const dbUser = await prisma.user.upsert({
-    where: {
-      supabaseUserId: user.id,
-    },
-    update: {},
-    create: {
-      supabaseUserId: user.id,
-    },
+  const dbUser = await prisma.user.findUnique({
+    where: { supabaseUserId: user.id },
   });
-
-  return dbUser.id;
+  return dbUser ? dbUser.id : null;
 }
 
+//「特定のルーティン専用のフィルター」特定のルーティンの過去の記録を全部欲しい時に使う
 export const GET = async (
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) => {
   const token = request.headers.get("Authorization") ?? "";
   const dbUserId = await getAuthenticatedDbUserId(token);
@@ -40,9 +32,9 @@ export const GET = async (
         : { id: parseInt(id), userId: dbUserId },
       orderBy: { createdAt: "desc" },
       include: {
-        trainingLogs: {
+        trainings: {
           include: {
-            setLogs: true,
+            sets: true,
           },
         },
       },
@@ -51,7 +43,7 @@ export const GET = async (
       return NextResponse.json({ routine: null }, { status: 200 });
     }
     return NextResponse.json({ routine: workoutLog }, { status: 200 });
-  } catch (error: unknown) {
+  } catch (error) {
     if (error instanceof Error)
       return NextResponse.json({ status: error.message }, { status: 400 });
   }

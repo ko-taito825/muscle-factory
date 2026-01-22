@@ -1,33 +1,32 @@
 export interface workoutLogRequset {
   routineId: number | null;
   title: string;
-  trainingLogs: {
-    name: string;
-    orderIndex: number;
-    setLogs: {
+  date?: string;
+  trainings: {
+    title: string;
+    sets: {
       weight: number;
       reps: number;
-      orderIndex: number;
     }[];
   }[];
 }
 
-export interface WorkoutLog {
+export interface SetLog {
+  id: number;
+  weight: number;
+  reps: number;
+}
+
+export interface TrainingLog {
   id: number;
   title: string;
-  createdAt: string;
-  trainingLogs: {
-    id: number;
-    name: string;
-    orderIndex: number;
-    setLogs: {
-      id: number;
-      weight: number;
-      reps: number;
-      orderIndex: number;
-    }[];
-  }[];
+  sets: SetLog[]; // ここに SetLog が入る
 }
-export interface workoutLogReponse {
-  routine: WorkoutLog;
+
+export interface WorkoutLog {
+  id: number;
+  routineId: number | null;
+  title: string;
+  createdAt: string; // PrismaからJSONになるときに string になる
+  trainings: TrainingLog[]; // ここに TrainingLog の配列が入る
 }

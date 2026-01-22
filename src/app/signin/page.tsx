@@ -1,7 +1,7 @@
 "use client";
 import { supabase } from "@/utils/supabase";
-import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 type FormValue = {
@@ -10,17 +10,18 @@ type FormValue = {
 };
 export default function page() {
   const router = useRouter();
-
+  const searchParams = useSearchParams();
+  const nextPath = searchParams.get("next") || "/";
   //ログインチェック
   useEffect(() => {
     const checkSession = async () => {
-      const { data, error } = await supabase.auth.getSession(); //supabaseが用意した関数
+      const { data } = await supabase.auth.getSession(); //supabaseが用意した関数
       if (data.session) {
-        router.replace("/");
+        router.replace(nextPath);
       }
     };
     checkSession();
-  }, []);
+  }, [nextPath, router]);
 
   const {
     register,
@@ -37,7 +38,7 @@ export default function page() {
       if (error) {
         alert("ログインに失敗しました");
       } else {
-        router.replace("/");
+        router.replace(nextPath);
       }
     } catch (error) {
       alert("予期せぬエラーが発生しました");

@@ -5,17 +5,16 @@ import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React from "react";
 import RoutineResultView from "../../_components/RoutineResultView";
-import { RoutineLogs } from "@/app/_types/RoutineLogs";
 import Link from "next/link";
-import { workoutLogReponse, workoutLogRequset } from "@/app/_types/WorkoutLog";
+import { WorkoutLog } from "@/app/_types/WorkoutLog";
 
 export default function page() {
   const { id } = useParams();
   const { token } = useSupabaseSession();
   const router = useRouter();
 
-  const { data, isLoading } = useFetch<workoutLogReponse>(
-    token ? `/api/workout-logs/${id}` : null
+  const { data, isLoading } = useFetch<{ routine: WorkoutLog }>( //<{ routine: WorkoutLog }>がどういうことか知る
+    token ? `/api/workout-logs/${id}` : null,
   );
   if (isLoading)
     return <div className="text-white p-10 text-center">読み込み中...</div>;
@@ -49,3 +48,8 @@ export default function page() {
     </div>
   );
 }
+
+//トレーニング完了のデータを表示させる
+//
+//
+//

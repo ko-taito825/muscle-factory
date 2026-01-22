@@ -9,7 +9,7 @@ import { Routines } from "../_types/Routines";
 export default function MyRoutinePage() {
   const { token } = useSupabaseSession();
   const { data, error, isLoading } = useFetch<Routines[]>(
-    token ? "/api/routines" : null
+    token ? "/api/routines" : null,
   );
 
   if (error) return <div className="text-white p-10">取得に失敗しました</div>;
@@ -27,7 +27,7 @@ export default function MyRoutinePage() {
           {data?.map((routine: Routines) => (
             <Link
               key={routine.id}
-              href={`/routine/${routine.id}`}
+              href={`/routines/${routine.id}`}
               className="w-full max-w-[280px] md:max-w-full border-2 border-yellow-500 rounded-xl py-4 bg-black/40 text-white text-2xl font-bold flex justify-center items-centeractive:scale-95 transition-transform "
             >
               {routine.title}
@@ -43,7 +43,7 @@ export default function MyRoutinePage() {
 
         <div className="text-white px-10 py-10 rounded-xl flex items-center justify-center gap-2 font-bold text-xl active:scale-95 transition-transform bg-black/20 w-full max-w-[320px] mx-auto">
           <Link
-            href="/routine/new"
+            href="/routines/new"
             className="border-2 border-white text-white px-6 py-2 rounded-lg flex items-center gap-2"
           >
             <Plus size={24} />

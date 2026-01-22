@@ -19,7 +19,8 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  routines Routine[]
+  routines    Routine[]
+  workoutLogs WorkoutLog[]
 }
 
 model Routine {
@@ -29,22 +30,21 @@ model Routine {
   updatedAt DateTime @updatedAt
   userId    Int
 
-  user       User         @relation(fields: [userId], references: [id])
-  trainings  Training[]
-  workoutLog WorkoutLog[]
+  user        User         @relation(fields: [userId], references: [id])
+  workoutLogs WorkoutLog[]
 
   @@unique([userId, title])
 }
 
 model Training {
-  id         Int          @id @default(autoincrement())
-  title      String
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-  routineId  Int
-  routine    Routine      @relation(fields: [routineId], references: [id], onDelete: Cascade)
+  id           Int      @id @default(autoincrement())
+  title        String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  workoutLogId Int
+
+  workoutLog WorkoutLog @relation(fields: [workoutLogId], references: [id], onDelete: Cascade)
   sets       Set[]
-  workoutLog WorkoutLog[]
 }
 
 model Set {
@@ -60,12 +60,14 @@ model Set {
 model WorkoutLog {
   id        Int      @id @default(autoincrement())
   title     String
+  //↑routineのスナップショットが入る（routine名）
   date      DateTime @default(now())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  userId    Int
 
-  trainingId Int
-  training   Training @relation(fields: [trainingId], references: [id], onDelete: Cascade)
-  routine    Routine? @relation(fields: [routineId], references: [id])
-  routineId  Int?
+  user      User       @relation(fields: [userId], references: [id])
+  trainings Training[]
+  routine   Routine?   @relation(fields: [routineId], references: [id])
+  routineId Int?
 }

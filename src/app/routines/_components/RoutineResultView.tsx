@@ -1,16 +1,16 @@
 "use client";
-import { WorkoutLog, workoutLogRequset } from "@/app/_types/WorkoutLog";
+import { workoutLogRequset } from "@/app/_types/WorkoutLog";
 import React from "react";
 
 export default function RoutineResultView({
   routine,
 }: {
-  routine: WorkoutLog;
+  routine: workoutLogRequset;
 }) {
   return (
     <div>
       <div className="space-y-8 pb-40">
-        {routine.trainingLogs?.map((training, trainingIndex) => (
+        {routine.trainings?.map((training, trainingIndex) => (
           <div
             key={trainingIndex}
             className="border-2 border-yellow-500 rounded-2xl p-5 bg-black/40"
@@ -19,11 +19,11 @@ export default function RoutineResultView({
               <span className="text-yellow-500">
                 {trainingIndex + 1}種目目:
               </span>
-              <span className="tracking-tighter">{training.name}</span>
+              <span className="tracking-tighter">{training.title}</span>
             </div>
 
             <div>
-              {training.setLogs.map((set, setIndex) => (
+              {training.sets.map((set, setIndex) => (
                 <div
                   key={setIndex}
                   className="flex justify-between items-center px-2 text-lg font-medium"

@@ -8,7 +8,7 @@ import React, { useMemo } from "react";
 export default function page() {
   const { token } = useSupabaseSession();
   const { data, error, isLoading } = useFetch<RoutineLogs[]>(
-    token ? "/api/routines" : null
+    token ? "/api/routines" : null,
   );
 
   const latestRoutines = useMemo(() => {
@@ -17,7 +17,7 @@ export default function page() {
     [...data]
       .sort(
         (a, b) =>
-          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
       )
       .forEach((routine) => {
         map.set(routine.title, routine);
@@ -47,7 +47,7 @@ export default function page() {
           {latestRoutines.map((routine) => (
             <Link
               key={routine.id}
-              href={`/routine/logs/${routine.id}`}
+              href={`/routines/logs/${routine.id}`}
               className="w-full max-w-[280px] md:max-w-full border-2 border-yellow-500 rounded-xl py-4 bg-black/40 text-white text-2xl font-bold flex justify-center items-center active:scale-95 transition-transform shadow-2xl"
             >
               {routine.title}

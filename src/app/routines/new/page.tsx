@@ -26,7 +26,7 @@ export default function page() {
       ],
     },
   });
-  const { control, handleSubmit } = methods;
+  const { control, handleSubmit, setError } = methods;
   const { fields, append, remove } = useFieldArray({
     control,
     name: "trainings",
@@ -42,12 +42,20 @@ export default function page() {
         },
         body: JSON.stringify(data),
       });
+      if (res.status === 400) {
+        const errorData = await res.json();
+        setError("title", {
+          type: "manual",
+          message: errorData.message,
+        });
+        return;
+      }
       if (!res.ok) {
         throw new Error(`作成失敗:${res.status}`);
       }
       await res.json();
       alert("トレーニングルーティンを作成");
-      router.push("/routine");
+      router.push("/routines");
     } catch (e) {
       console.log(e);
       alert("トレーニングルーティンの作成に失敗");
