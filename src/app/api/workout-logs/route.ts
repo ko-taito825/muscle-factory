@@ -5,12 +5,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 //カレンダーに表示するために全ての日付ログを取得する
 export const GET = async (request: NextRequest) => {
-  const token = request.headers.get("Authorization") ?? "";
-  const dbUserId = await getAuthenticatedDbUserId(token);
+  const userId = await getAuthenticatedDbUserId(request);
 
-  console.log("取得したユーザーID:", dbUserId);
-
-  if (dbUserId === null)
+  if (userId === null)
     return NextResponse.json(
       { message: "ユーザー認証に失敗したか、DBにユーザーいません" },
       { status: 401 },
@@ -20,7 +17,7 @@ export const GET = async (request: NextRequest) => {
   try {
     if (mode === "summary") {
       const summaryLogs = await prisma.workoutLog.findMany({
-        where: { userId: dbUserId },
+        where: { userId },
         select: { id: true, title: true, createdAt: true },
         orderBy: { createdAt: "desc" },
       });
@@ -28,7 +25,7 @@ export const GET = async (request: NextRequest) => {
     }
     const fullLogs = await prisma.workoutLog.findMany({
       where: {
-        userId: dbUserId,
+        userId,
       },
       include: {
         trainings: {

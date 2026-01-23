@@ -5,42 +5,33 @@ import { NextRequest, NextResponse } from "next/server";
 
 //新規ルーティン名の登録(POST)
 export const POST = async (request: NextRequest) => {
-  const token = request.headers.get("Authorization") ?? "";
-
-  const dbUserId = await getAuthenticatedDbUserId(token);
-  if (dbUserId === null)
+  const userId = await getAuthenticatedDbUserId(request);
+  if (userId === null)
     return NextResponse.json(
       { message: "ユーザー認証に失敗したか、DBにユーザーがいません" },
       { status: 401 },
     );
   try {
     const { title } = await request.json();
+    const existRoutine = await prisma.routine.findFirst({
+      where: { title, userId },
+    });
+    if (existRoutine) {
+      return NextResponse.json(
+        { message: "そのルーティン名はすでに存在します" },
+        { status: 400 },
+      );
+    }
     const newRoutine = await prisma.routine.create({
       data: {
         title,
-        userId: dbUserId,
+        userId,
       },
     });
 
     return NextResponse.json<Routines>(newRoutine, { status: 201 });
   } catch (error) {
     console.error("DEBUG: POST /api/routines error:", error);
-
-    if (
-      error &&
-      typeof error === "object" &&
-      "code" in error &&
-      (error as { code: unknown }).code === "P2002"
-    ) {
-      //dbの@@uniqueのやつ同じユーザーが「胸の日」という名前を2回使おうとするとPrismaはP2002をつけてエラーを投げる
-      return NextResponse.json(
-        {
-          message: "その名前のルーティンはすでに存在します",
-        },
-        { status: 400 },
-      );
-    }
-
     return NextResponse.json(
       {
         message: "Routineの作成に失敗しました",
@@ -52,10 +43,9 @@ export const POST = async (request: NextRequest) => {
 
 //get書いて登録したルーティンを取得する.
 export const GET = async (request: NextRequest) => {
-  const token = request.headers.get("Authorization") ?? "";
-  const dbUserId = await getAuthenticatedDbUserId(token);
+  const userId = await getAuthenticatedDbUserId(request);
 
-  if (dbUserId === null)
+  if (userId === null)
     return NextResponse.json(
       { message: "認証に失敗しました" },
       { status: 401 },
@@ -66,7 +56,7 @@ export const GET = async (request: NextRequest) => {
   try {
     if (mode === "summary") {
       const summaryRoutines = await prisma.routine.findMany({
-        where: { userId: dbUserId },
+        where: { userId },
         select: { id: true, title: true, createdAt: true },
         orderBy: { updatedAt: "desc" },
       });
@@ -75,7 +65,7 @@ export const GET = async (request: NextRequest) => {
 
     //新しい仕様、Routine -> WorkoutLog (最新1件) -> Training -> Set と辿る
     const routineWithTemplate = await prisma.routine.findMany({
-      where: { userId: dbUserId },
+      where: { userId },
       include: {
         workoutLogs: {
           orderBy: { date: "desc" }, //最新のログの取得

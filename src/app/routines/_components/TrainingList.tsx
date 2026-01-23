@@ -1,3 +1,4 @@
+"use client";
 import { RoutineFormValues } from "@/app/_types/RoutineValue";
 import React from "react";
 import { FieldArrayWithId } from "react-hook-form";

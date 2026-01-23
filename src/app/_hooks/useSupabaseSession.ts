@@ -19,9 +19,17 @@ export const useSupabaseSession = () => {
       setSession(session);
       setToken(session?.access_token || null);
       setIsLoading(false);
+
+      const publicPaths = ["/signin", "/signup", "/password"];
+      const isPulicPath = publicPaths.includes(pathname);
+
       if (!session) {
-        if (pathname !== "/signin") {
+        if (!isPulicPath) {
           router.replace(`/signin?next=${pathname}`);
+        }
+      } else {
+        if (isPulicPath) {
+          router.replace("/");
         }
       }
     };

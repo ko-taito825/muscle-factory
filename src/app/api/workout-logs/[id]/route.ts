@@ -7,17 +7,16 @@ export const GET = async (
   request: NextRequest,
   { params }: { params: { id: string } },
 ) => {
-  const token = request.headers.get("Authorization") ?? "";
-  const dbUserId = await getAuthenticatedDbUserId(token);
-  if (!dbUserId)
+  const userId = await getAuthenticatedDbUserId(request);
+  if (!userId)
     return NextResponse.json({ status: "認証に失敗しました" }, { status: 401 });
   const { id } = params;
   const isRoutineMode = request.nextUrl.searchParams.get("mode") === "routine";
   try {
     const workoutLog = await prisma.workoutLog.findFirst({
       where: isRoutineMode
-        ? { routineId: parseInt(id), userId: dbUserId }
-        : { id: parseInt(id), userId: dbUserId },
+        ? { routineId: parseInt(id), userId }
+        : { id: parseInt(id), userId },
       orderBy: { createdAt: "desc" },
       include: {
         trainings: {
@@ -27,9 +26,6 @@ export const GET = async (
         },
       },
     });
-    if (!workoutLog) {
-      return NextResponse.json({ routine: null }, { status: 200 });
-    }
     return NextResponse.json({ routine: workoutLog }, { status: 200 });
   } catch (error) {
     if (error instanceof Error)

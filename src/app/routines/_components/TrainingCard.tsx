@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import SetRow from "./SetRow";

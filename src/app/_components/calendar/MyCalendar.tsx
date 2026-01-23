@@ -29,6 +29,10 @@ export default function MyCalendar() {
     const target = summaryLogs.find((l) =>
       isSameDay(new Date(l.createdAt), date),
     ); //APIの createdAt の日付 ＝ カレンダーで選んだ日付
+    if (!target) {
+      setDetailLog(null);
+      return;
+    }
     if (target) {
       setIsFetchingDetail(true);
       try {
@@ -53,11 +57,11 @@ export default function MyCalendar() {
     return log ? <div className="text-red-600">{log.title}</div> : null;
   };
   if (isLoading) return <div>読み込み中...</div>;
-  console.log("summaryLogsの中身:", summaryLogs);
+
   return (
     <div className="flex flex-col items-center w-full pt-12 pb-8 px-4">
       <Calendar
-        locale="en-US"
+        locale="ja-JP"
         formatDay={(locale, date) => date.getDate().toString()}
         onClickDay={handleDayClick}
         tileContent={getTitleContent}

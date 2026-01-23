@@ -12,13 +12,9 @@ export const GET = async (
   request: NextRequest,
   { params }: { params: { id: string } },
 ) => {
-  const token = request.headers.get("Authorization") ?? "";
-  const dbUserId = await getAuthenticatedDbUserId(token);
+  const dbUserId = await getAuthenticatedDbUserId(request);
   if (!dbUserId)
     return NextResponse.json({ message: "認証失敗" }, { status: 401 });
-  const { error } = await supabase.auth.getUser(token);
-  if (error)
-    return NextResponse.json({ status: error.message }, { status: 400 });
 
   const { id } = params;
   try {
@@ -48,7 +44,7 @@ export const GET = async (
         { status: 404 },
       );
     }
-    return NextResponse.json(routine as RoutineDetail, { status: 200 });
+    return NextResponse.json<RoutineDetail>(routine, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: "取得に失敗しました" },
@@ -63,9 +59,8 @@ export const PUT = async (
   request: NextRequest,
   { params }: { params: { id: string } },
 ) => {
-  const token = request.headers.get("Authorization") ?? "";
-  const dbUserId = await getAuthenticatedDbUserId(token);
-  if (!dbUserId)
+  const userId = await getAuthenticatedDbUserId(request);
+  if (!userId)
     return NextResponse.json({ message: "認証失敗" }, { status: 401 });
 
   const { id } = params;
@@ -76,10 +71,10 @@ export const PUT = async (
     const updateRoutine = await prisma.routine.update({
       where: {
         id: parseInt(id),
-        userId: dbUserId, //他人のルーティンを編集できないように→いるかこれ、ログインに成功した時点で他人は介入できない
+        userId,
       },
       data: {
-        title: title,
+        title,
       },
     });
     return NextResponse.json(updateRoutine, { status: 200 });
@@ -93,16 +88,15 @@ export const DELETE = async (
   request: NextRequest,
   { params }: { params: { id: string } },
 ) => {
-  const token = request.headers.get("Authorization") ?? "";
-  const dbUserId = await getAuthenticatedDbUserId(token);
-  if (!dbUserId)
+  const userId = await getAuthenticatedDbUserId(request);
+  if (!userId)
     return NextResponse.json({ message: "認証失敗" }, { status: 401 });
   const { id } = params;
   try {
     await prisma.routine.delete({
       where: {
         id: parseInt(id),
-        userId: dbUserId,
+        userId,
       },
     });
     return NextResponse.json({ status: "OK" }, { status: 200 });

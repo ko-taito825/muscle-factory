@@ -5,9 +5,8 @@ import { workoutLogRequset } from "@/app/_types/WorkoutLog";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
-  const token = request.headers.get("Authorization") ?? "";
-  const dbUserId = await getAuthenticatedDbUserId(token);
-  if (dbUserId === null)
+  const userId = await getAuthenticatedDbUserId(request);
+  if (userId === null)
     return NextResponse.json(
       { message: "ユーザー認証に失敗したか、DBにユーザーがいません" },
       { status: 401 },
@@ -18,7 +17,7 @@ export const POST = async (request: NextRequest) => {
     const { routineId, title, date, trainings } = body;
     const newLog = await prisma.workoutLog.create({
       data: {
-        userId: dbUserId,
+        userId,
         routineId,
         title, //routine名のスナップショット
         date: date ? new Date(date) : new Date(),

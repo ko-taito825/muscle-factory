@@ -1,3 +1,4 @@
+"use client";
 import { MinusCircle } from "lucide-react";
 import React from "react";
 import { useFormContext } from "react-hook-form";

@@ -17,10 +17,10 @@ export default function page() {
   );
   if (isLoading)
     return <div className="text-white p-10 font-black">読み込み中...</div>;
-  if (!data?.routine)
+  if (!data)
     return <div className="text-white p-10">ルーティンが見つかりません</div>;
-  const routineData = data?.routine;
-  const formattedData = new Date(routineData.createdAt).toLocaleDateString(
+  const routineData = data.routine;
+  const formattedDate = new Date(routineData.createdAt).toLocaleDateString(
     "ja-JP",
     {
       month: "numeric",
@@ -35,7 +35,7 @@ export default function page() {
             Last {routineData.title}
           </h1>
           <p className="text-white text-3xl font-bold mt-2 px-1">
-            {formattedData}
+            {formattedDate}
           </p>
         </div>
         <RoutineResultView routine={routineData} />

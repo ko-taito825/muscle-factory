@@ -1,9 +1,12 @@
 import { supabase } from "@/utils/supabase";
 import { prisma } from "./prisma";
+import { NextRequest } from "next/server";
 
 export async function getAuthenticatedDbUserId(
-  token: string,
+  request: NextRequest,
 ): Promise<number | null> {
+  const authHeader = request.headers.get("Authorization") ?? "";
+  const token = authHeader.replace(/bearer /i, "").trim();
   if (!token) return null;
   try {
     const {

@@ -1,7 +1,8 @@
 "use client";
 import { supabase } from "@/utils/supabase";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 type FormValue = {
@@ -48,7 +49,7 @@ export default function page() {
   return (
     <div className="min-h-screen w-full bg-black/50">
       <div className="flex min-h-screen items-center justify-center p-4">
-        <div className="w-full max-w-md space-y-8 rounded-3xl bg-black/80 backdrop-blur-md p-10 shadow-2xl border border-white/5">
+        <div className="w-full max-w-md space-y-8 rounded-3xl bg-black/80 backdrop-blur-md p-10 shadow-2xl border md:border-yellow-500">
           <div className="text-center">
             <h1 className="text-5xl font-bold tracking-tight text-yellow-500 [text-shadow:_0_4px_30px_rgba(234,179,8,0.6)]">
               Sign In
@@ -89,9 +90,12 @@ export default function page() {
               />
               <p className="text-red-500 text-sm">{errors.password?.message}</p>
             </div>
-            <p className="text-lg text-gray-400 text-center">
+            <Link
+              href="/password"
+              className="text-lg text-gray-400 text-center"
+            >
               Forgot password?
-            </p>
+            </Link>
             <button
               type="submit"
               disabled={isSubmitting}

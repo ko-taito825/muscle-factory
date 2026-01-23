@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import BottomNav from "./_components/navigation/BottomNav";
-import Sidebar from "./_components/navigation/Sidebar";
+import LayoutContent from "./_components/LayoutContent";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,19 +15,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className="bg-black text-white antialiased">
-        <div className="flex flex-col md:flex-row min-h-screen">
-          <aside className="hidden md:flex w-64 fixed h-full border-r border-yellow-500 bg-black z-50">
-            <Sidebar />
-          </aside>
-
-          <main className="flex-1 md:ml-64 min-h-screen relative">
-            {children}
-          </main>
-
-          <div className="md:hidden">
-            <BottomNav />
-          </div>
-        </div>
+        <LayoutContent>{children}</LayoutContent>
       </body>
     </html>
   );
