@@ -38,7 +38,7 @@ export default function page() {
   return (
     <div className="min-h-screen w-full bg-black/50">
       <div className="flex min-h-screen items-center justify-center p-4">
-        <div className="w-full max-w-md space-y-8 rounded-3xl bg-black/80 backdrop-blur-md p-10 shadow-2xl border border-white/5">
+        <div className="w-full max-w-md space-y-8 rounded-3xl bg-black/80 backdrop-blur-md p-10 shadow-2xl border md:border-yellow-500">
           <div className="text-center">
             <h1 className="text-5xl font-bold tracking-tight text-yellow-500 [text-shadow:_0_4px_30px_rgba(234,179,8,0.6)]">
               Sign Up
@@ -94,61 +94,5 @@ export default function page() {
         </div>
       </div>
     </div>
-    // <div className="min-h-screen w-full bg-black/50">
-    //   <div className="absolute inset-0 bg-black/60" />
-    //   <div className="relative z-10 flex min-h-screen items-center justify-center p-4">
-    //     <div className="w-full max-w-md space-y-8">
-    //       <div className="text-center">
-    //         <h1 className="text-5xl font-bold tracking-tight text-yellow-500">
-    //           Sign Up
-    //         </h1>
-    //         <p className="mt-3 text-lg text-gray-400">
-    //           Let's create you an account
-    //         </p>
-    //       </div>
-    //       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-    //         <div className="space-y-2">
-    //           <label
-    //             htmlFor="email"
-    //             className="block text-sm font-medium text-gray-300"
-    //           >
-    //             e-mail
-    //           </label>
-    //           <input
-    //             type="email"
-    //             id="email"
-    //             placeholder="name@company.com"
-    //             className="w-full rounded-lg border-2 border-yellow-600 bg-transparent px-4 py-3 text-white placeholder:text-gray-500 focus:border-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
-    //             {...register("email", { required: "Emailは必須です" })}
-    //           />
-    //           <p>{errors.email?.message}</p>
-    //         </div>
-    //         <div className="space-y-2">
-    //           <label
-    //             htmlFor="password"
-    //             className="block text-sm font-medium text-gray-300"
-    //           >
-    //             password
-    //           </label>
-    //           <input
-    //             type="password"
-    //             id="password"
-    //             placeholder="......."
-    //             className="w-full rounded-lg border-2 border-yellow-600 bg-transparent px-4 py-3 text-white placeholder:text-gray-500 focus:border-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
-    //             {...register("password", { required: "passwordは必須です" })}
-    //           />
-    //           <p>{errors.password?.message}</p>
-    //         </div>
-    //         <button
-    //           type="submit"
-    //           disabled={isSubmitting}
-    //           className="w-full rounded-lg border-2 border-yellow-600 bg-transparent py-3 text-xl font-semibold text-yellow-500 transition-colors hover:bg-yellow-600 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
-    //         >
-    //           Sign Up
-    //         </button>
-    //       </form>
-    //     </div>
-    //   </div>
-    // </div>
   );
 }

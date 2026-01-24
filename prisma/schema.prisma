@@ -30,21 +30,21 @@ model Routine {
   updatedAt DateTime @updatedAt
   userId    Int
 
-  user User @relation(fields: [userId], references: [id])
-
-  trainings Training[]
-
+  user        User         @relation(fields: [userId], references: [id])
   workoutLogs WorkoutLog[]
+
+  @@unique([userId, title])
 }
 
 model Training {
-  id        Int      @id @default(autoincrement())
-  title     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  routineId Int
-  routine   Routine  @relation(fields: [routineId], references: [id], onDelete: Cascade)
-  sets      Set[]
+  id           Int      @id @default(autoincrement())
+  title        String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  workoutLogId Int
+
+  workoutLog WorkoutLog @relation(fields: [workoutLogId], references: [id], onDelete: Cascade)
+  sets       Set[]
 }
 
 model Set {
@@ -60,39 +60,14 @@ model Set {
 model WorkoutLog {
   id        Int      @id @default(autoincrement())
   title     String
+  //↑routineのスナップショットが入る（routine名）
+  date      DateTime @default(now())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  userId    Int
 
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
-
+  user      User       @relation(fields: [userId], references: [id])
+  trainings Training[]
+  routine   Routine?   @relation(fields: [routineId], references: [id])
   routineId Int?
-  routine   Routine? @relation(fields: [routineId], references: [id], onDelete: SetNull)
-
-  trainingLogs TrainingLog[]
-}
-
-model TrainingLog {
-  id         Int      @id @default(autoincrement())
-  name       String
-  orderIndex Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  workoutLogId Int
-  workoutLog   WorkoutLog @relation(fields: [workoutLogId], references: [id], onDelete: Cascade)
-
-  setLogs SetLog[]
-}
-
-model SetLog {
-  id         Int      @id @default(autoincrement())
-  weight     Float
-  reps       Int
-  orderIndex Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  trainingLogId Int
-  trainingLog   TrainingLog @relation(fields: [trainingLogId], references: [id], onDelete: Cascade)
 }
