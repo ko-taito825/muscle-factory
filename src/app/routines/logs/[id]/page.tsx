@@ -13,12 +13,24 @@ export default function page() {
   const router = useRouter();
 
   const { data, isLoading } = useFetch<{ routine: WorkoutLog }>(
-    token ? `/api/workout-logs/${id}` : null,
+    token ? `/api/workout-logs/${id}?mode=routine` : null,
   );
   if (isLoading)
     return <div className="text-white p-10 font-black">読み込み中...</div>;
-  if (!data)
-    return <div className="text-white p-10">ルーティンが見つかりません</div>;
+  if (!data || !data.routine)
+    return (
+      <div>
+        <div className="text-white p-10">
+          このルーティンの記録はまだありません
+        </div>
+        <button
+          onClick={() => router.push("/routines")}
+          className="border-2 border-yellow-500 text-yellow-500 px-8 py-3 rounded-full font-black hover:bg-yellow-500 hover:text-black transition-all"
+        >
+          Routine一覧へ
+        </button>
+      </div>
+    );
   const routineData = data.routine;
   const formattedDate = new Date(routineData.createdAt).toLocaleDateString(
     "ja-JP",

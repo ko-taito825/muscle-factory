@@ -50,6 +50,3 @@ export default function page() {
 }
 
 //トレーニング完了のデータを表示させる
-//
-//
-//
