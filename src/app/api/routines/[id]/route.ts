@@ -12,8 +12,8 @@ export const GET = async (
   request: NextRequest,
   { params }: { params: { id: string } },
 ) => {
-  const dbUserId = await getAuthenticatedDbUserId(request);
-  if (!dbUserId)
+  const userId = await getAuthenticatedDbUserId(request);
+  if (!userId)
     return NextResponse.json({ message: "認証失敗" }, { status: 401 });
 
   const { id } = params;
@@ -21,10 +21,11 @@ export const GET = async (
     const routine = await prisma.routine.findUnique({
       where: {
         id: parseInt(id),
+        userId,
       },
       include: {
         workoutLogs: {
-          where: { userId: dbUserId },
+          where: { userId },
           //最新のworkoutLogsを一件だけ取得して、それを今回のトレーニングの雛形にする
           orderBy: { date: "desc" },
           take: 1,
