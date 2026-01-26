@@ -11,18 +11,7 @@ export default function page() {
   const { token } = useSupabaseSession();
   const methods = useForm<RoutineFormValues>({
     defaultValues: {
-      //最初に表示させておく
       title: "",
-      // trainings: [
-      //   {
-      //     title: "",
-      //     sets: [
-      //       { weight: "", reps: "" },
-      //       { weight: "", reps: "" },
-      //       { weight: "", reps: "" },
-      //     ],
-      //   },
-      // ],
     },
   });
   const { handleSubmit, setError } = methods;
@@ -67,13 +56,15 @@ export default function page() {
           New Routine
         </h1>
         <RoutineTitleInput />
-        <div className="fixed bottom-28 right-6 z-50">
-          <button
-            type="submit"
-            className="bg-white text-black px-4 py-1 rounded-full text-sm font-bold shadow-xl active:scale-95 transition-transform"
-          >
-            My routineに登録
-          </button>
+        <div className="fixed bottom-28 left-0 w-full z-50 pointer-events-none md:pl-64">
+          <div className="w-full max-w-2xl mx-auto px-4 md:px-0 flex justify-end">
+            <button
+              type="submit"
+              className="bg-white text-black px-6 py-2 rounded-full text-sm font-bold shadow-xl active:scale-95 transition-transform pointer-events-auto"
+            >
+              My routineに登録
+            </button>
+          </div>
         </div>
       </form>
     </FormProvider>

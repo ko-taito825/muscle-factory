@@ -19,13 +19,13 @@ export default function page() {
     return <div className="text-white p-10 font-black">読み込み中...</div>;
   if (!data || !data.routine)
     return (
-      <div>
-        <div className="text-white p-10">
+      <div className="min-h-screen bg-black md:ml-64 flex flex-col items-center justify-center p-6 text-center">
+        <div className="text-white text-xl md:text-2xl font-bold mb-8 tracking-tight">
           このルーティンの記録はまだありません
         </div>
         <button
           onClick={() => router.push("/routines")}
-          className="border-2 border-yellow-500 text-yellow-500 px-8 py-3 rounded-full font-black hover:bg-yellow-500 hover:text-black transition-all"
+          className="border-2 border-yellow-500 text-yellow-500 px-10 py-3 rounded-full font-black hover:bg-yellow-500 hover:text-black active:scale-95 transition-all shadow-[0_0_20px_rgba(234,179,8,0.2)]"
         >
           Routine一覧へ
         </button>
@@ -51,13 +51,17 @@ export default function page() {
           </p>
         </div>
         <RoutineResultView routine={routineData} />
-        <button
-          type="button"
-          onClick={() => router.push("/routines/logs")}
-          className="fixed bottom-28 right-6 z-50 border-2 border-yellow-500 text-yellow-500 font-black px-6 py-2 rounded-full bg-black/40 backdrop-blur-sm hover:bg-yellow-500/10 active:scale-95 transition-all shadow-[0_0_15px_rgba(234,179,8,0.3)]"
-        >
-          戻る
-        </button>
+        <div className="fixed bottom-28 left-0 w-full z-50 pointer-events-none md:pl-64">
+          <div className="w-full max-w-2xl mx-auto px-4 md:px-0 flex justify-end">
+            <button
+              type="button"
+              onClick={() => router.push("/routines/logs")}
+              className="border-2 border-yellow-500 text-yellow-500 font-black px-6 py-2 rounded-full bg-black/40 backdrop-blur-sm hover:bg-yellow-500/10 active:scale-95 transition-all shadow-[0_0_15px_rgba(234,179,8,0.3)] pointer-events-auto"
+            >
+              戻る
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

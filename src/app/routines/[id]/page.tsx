@@ -2,7 +2,7 @@
 import { useFetch } from "@/app/_hooks/useFetch";
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 import { RoutineFormValues } from "@/app/_types/RoutineValue";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
@@ -14,8 +14,10 @@ import { RoutineDetail } from "@/app/_types/RoutineDetail";
 export default function page() {
   const router = useRouter();
   const { id } = useParams();
+  const searchParams = useSearchParams();
+  const isResume = searchParams.get("resume") === "true";
   const { token } = useSupabaseSession();
-
+  const draftKey = `workout_draft_${id}`;
   const { data, isLoading } = useFetch<RoutineDetail>(
     token ? `/api/routines/${id}` : null,
   );
@@ -25,39 +27,57 @@ export default function page() {
       trainings: [],
     },
   });
-  const { isSubmitting } = methods.formState;
-  const { control, handleSubmit, reset } = methods;
+  const { isSubmitting, isSubmitSuccessful } = methods.formState;
+  const { control, handleSubmit, reset, watch } = methods;
   const { fields, append, remove } = useFieldArray({
     control,
     name: "trainings",
   });
-
+  const watchValues = watch();
+  //送信中、完了後は実行しない処理
   useEffect(() => {
-    if (data) {
-      const latestLog = data.workoutLogs?.[0]; //最新のテンプレートを取得(0番目)
-
-      if (latestLog) {
-        //ログがある場合はその種目をコピー
-        const ressetTrainings = latestLog.trainings.map((training) => ({
-          title: training.title,
-          sets: training.sets.map(() => ({
-            weight: "",
-            reps: "",
-          })),
-        }));
-        reset({
-          title: data.title,
-          trainings: ressetTrainings,
-        });
+    if (isSubmitting || isSubmitSuccessful) return;
+    if (watchValues.trainings && watchValues.trainings.length > 0) {
+      localStorage.setItem(draftKey, JSON.stringify(watchValues));
+    }
+  }, [watchValues, draftKey, isSubmitting, isSubmitSuccessful]);
+  //データの復元・過去ログのコピー
+  useEffect(() => {
+    if (!data) return;
+    const saveDraft = localStorage.getItem(draftKey);
+    if (saveDraft) {
+      if (
+        isResume ||
+        window.confirm("編集中のデータが見つかりました。続きから再開しますか？")
+      ) {
+        reset(JSON.parse(saveDraft));
+        return;
       } else {
-        //過去にログが一度もない新規ルーティンの場合
-        reset({
-          title: data.title,
-          trainings: [],
-        });
+        localStorage.removeItem(draftKey);
       }
     }
-  }, [data, reset]);
+    const latestLog = data.workoutLogs?.[0];
+    if (latestLog) {
+      //ログがある場合はその種目をコピー
+      const ressetTrainings = latestLog.trainings.map((training) => ({
+        title: training.title,
+        sets: training.sets.map(() => ({
+          weight: "",
+          reps: "",
+        })),
+      }));
+      reset({
+        title: data.title,
+        trainings: ressetTrainings,
+      });
+    } else {
+      //過去にログが一度もない新規ルーティンの場合
+      reset({
+        title: data.title,
+        trainings: [],
+      });
+    }
+  }, [data, reset, id, isResume, draftKey]);
 
   const onSubmit = async (data: RoutineFormValues) => {
     try {
@@ -73,7 +93,6 @@ export default function page() {
         })),
       };
       const res = await fetch(`/api/routines/${id}/workoutlogs`, {
-        //元々"/api/workout-logs"
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -82,6 +101,7 @@ export default function page() {
         body: JSON.stringify(cleanedData),
       });
       if (!res.ok) throw new Error("新規保存失敗");
+      localStorage.removeItem(draftKey);
 
       const result = await res.json();
 

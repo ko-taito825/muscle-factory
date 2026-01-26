@@ -45,6 +45,7 @@ export default function page() {
 
         <div className="flex flex-col gap-6 mb-16 items-center">
           {latestRoutines.map((routine) => (
+            
             <Link
               key={routine.id}
               href={`/routines/logs/${routine.id}`}
