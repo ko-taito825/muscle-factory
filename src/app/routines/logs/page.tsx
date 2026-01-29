@@ -1,9 +1,11 @@
 "use client";
 import { useFetch } from "@/app/_hooks/useFetch";
+import { useLocalStorage } from "@/app/_hooks/useLocalStorage";
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 import { RoutineLogs } from "@/app/_types/RoutineLogs";
 import Link from "next/link";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
+import WorkoutInProgressBanner from "../_components/WorkoutInProgressBanner";
 
 export default function page() {
   const { token } = useSupabaseSession();
@@ -38,6 +40,10 @@ export default function page() {
 
   return (
     <div className="min-h-screen relative">
+      <div className="w-full p-4 md:max-w-2xl md:mx-auto md:px-0">
+        <WorkoutInProgressBanner />
+      </div>
+
       <div className="w-full p-4 md:max-w-2xl md:mx-auto md:px-0 pb-40 text-white">
         <h1 className="text-yellow-500 text-4xl font-black tracking-tighter mb-12">
           My Logs
@@ -45,7 +51,6 @@ export default function page() {
 
         <div className="flex flex-col gap-6 mb-16 items-center">
           {latestRoutines.map((routine) => (
-            
             <Link
               key={routine.id}
               href={`/routines/logs/${routine.id}`}

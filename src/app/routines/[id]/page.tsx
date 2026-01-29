@@ -102,6 +102,7 @@ export default function page() {
       });
       if (!res.ok) throw new Error("新規保存失敗");
       localStorage.removeItem(draftKey);
+      localStorage.removeItem("workout_draft_");
 
       const result = await res.json();
 

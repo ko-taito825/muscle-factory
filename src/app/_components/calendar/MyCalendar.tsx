@@ -69,13 +69,6 @@ export default function MyCalendar() {
       <div className="w-full mt-8 max-w-[380px] lg:max-w-[550px]">
         <RoutineDetailCard detail={detailLog} loading={isFetchingDetail} />
       </div>
-
-      <Link
-        className="mt-20 w-full max-w-[260px] bg-[#d4af37] text-black font-extrabold py-4 px-8 rounded-full shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:bg-[#e5c158] active:scale-95 transition-all duration-200 uppercase tracking-widest text-lg flex items-center justify-center text-center"
-        href="/routines"
-      >
-        TRAINING START
-      </Link>
     </div>
   );
 }
