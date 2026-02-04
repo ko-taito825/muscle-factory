@@ -3,6 +3,7 @@ import { supabase } from "@/utils/supabase";
 import React from "react";
 
 import { useForm } from "react-hook-form";
+import { UserData } from "../_types/user";
 type FormValue = {
   email: string;
   password: string;
@@ -29,16 +30,16 @@ export default function page() {
         alert("登録に失敗しました");
       }
       if (authData.user) {
-        const response = await fetch("/api/users", {
+        const res = await fetch("/api/users", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             supabaseUserId: authData.user.id,
-          }),
+          } as UserData),
         });
-        if (!response.ok) {
+        if (!res.ok) {
           console.error("DBへの保存に失敗しました");
         }
       }

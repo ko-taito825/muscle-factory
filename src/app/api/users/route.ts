@@ -1,9 +1,10 @@
 import { prisma } from "@/app/_lib/prisma";
+import { UserData } from "@/app/_types/user";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
   try {
-    const body = await request.json();
+    const body = (await request.json()) as UserData;
     const { supabaseUserId } = body;
 
     if (!supabaseUserId) {
