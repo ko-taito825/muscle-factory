@@ -84,6 +84,7 @@ export const GET = async (request: NextRequest) => {
 
     return NextResponse.json<Routines[]>(routineWithTemplate, { status: 200 });
   } catch (error) {
+    console.error("API ERROR DETAILS:", error);
     return NextResponse.json(
       { message: "取得に失敗しました" },
       { status: 500 },

@@ -5,7 +5,6 @@ export const useFetch = <T>(url: string | null) => {
   const { token } = useSupabaseSession();
 
   const fetcher = async ([url, token]: [string, string]) => {
-    console.log("fetcher開始:", url);
     const res = await fetch(url, {
       headers: {
         "Content-Type": "application/json",

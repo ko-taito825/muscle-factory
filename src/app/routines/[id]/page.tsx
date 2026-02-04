@@ -27,7 +27,7 @@ export default function page() {
       trainings: [],
     },
   });
-  const { isSubmitting, isSubmitSuccessful } = methods.formState;
+  const { isSubmitting, isSubmitSuccessful, isDirty } = methods.formState;
   const { control, handleSubmit, reset, watch } = methods;
   const { fields, append, remove } = useFieldArray({
     control,
@@ -36,11 +36,11 @@ export default function page() {
   const watchValues = watch();
   //送信中、完了後は実行しない処理
   useEffect(() => {
-    if (isSubmitting || isSubmitSuccessful) return;
+    if (isSubmitting || isSubmitSuccessful || !isDirty) return;
     if (watchValues.trainings && watchValues.trainings.length > 0) {
       localStorage.setItem(draftKey, JSON.stringify(watchValues));
     }
-  }, [watchValues, draftKey, isSubmitting, isSubmitSuccessful]);
+  }, [watchValues, draftKey, isSubmitting, isSubmitSuccessful, isDirty]);
   //データの復元・過去ログのコピー
   useEffect(() => {
     if (!data) return;
@@ -102,7 +102,7 @@ export default function page() {
       });
       if (!res.ok) throw new Error("新規保存失敗");
       localStorage.removeItem(draftKey);
-      localStorage.removeItem("workout_draft_");
+      localStorage.removeItem(`workout_draft_${id}`); //ここに${id}追加した
 
       const result = await res.json();
 

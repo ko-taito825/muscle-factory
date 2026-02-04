@@ -2,7 +2,7 @@
 import { supabase } from "@/utils/supabase";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 
 type FormValue = {
@@ -13,16 +13,6 @@ export default function page() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextPath = searchParams.get("next") || "/";
-  //ログインチェック
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data } = await supabase.auth.getSession(); //supabaseが用意した関数
-      if (data.session) {
-        router.replace(nextPath);
-      }
-    };
-    checkSession();
-  }, [nextPath, router]);
 
   const {
     register,
@@ -40,6 +30,7 @@ export default function page() {
         alert("ログインに失敗しました");
       } else {
         router.replace(nextPath);
+        router.refresh();
       }
     } catch (error) {
       alert("予期せぬエラーが発生しました");
@@ -90,12 +81,6 @@ export default function page() {
               />
               <p className="text-red-500 text-sm">{errors.password?.message}</p>
             </div>
-            <Link
-              href="/password"
-              className="text-lg text-gray-400 text-center"
-            >
-              Forgot password?
-            </Link>
             <button
               type="submit"
               disabled={isSubmitting}
@@ -103,6 +88,25 @@ export default function page() {
             >
               Sign In
             </button>
+
+            <div className="mt-8 pt-6 border-t border-zinc-800 text-center space-y-4">
+              <Link
+                href="/password"
+                className="block text-sm text-gray-500 hover:text-yellow-500 transition-colors"
+              >
+                Forgot password?
+              </Link>
+
+              <p className="text-gray-400 text-sm">
+                Don&apos;t have an account?{" "}
+                <Link
+                  href="/signup"
+                  className="text-yellow-500 font-bold hover:text-yellow-400 hover:underline decoration-2 underline-offset-4 transition-all"
+                >
+                  Create an account
+                </Link>
+              </p>
+            </div>
           </form>
         </div>
       </div>

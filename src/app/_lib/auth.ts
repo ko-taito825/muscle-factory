@@ -7,7 +7,9 @@ export async function getAuthenticatedDbUserId(
 ): Promise<number | null> {
   const authHeader = request.headers.get("Authorization") ?? "";
   const token = authHeader.replace(/bearer /i, "").trim();
-  if (!token) return null;
+  if (!token) {
+    return null;
+  }
   try {
     const {
       data: { user },

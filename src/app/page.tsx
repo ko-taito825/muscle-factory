@@ -1,10 +1,56 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./globals.css";
 import MyCalendar from "./_components/calendar/MyCalendar";
 import WorkoutInProgressBanner from "./routines/_components/WorkoutInProgressBanner";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useUser } from "./_hooks/useUser";
+import { useFetch } from "./_hooks/useFetch";
+import { useSupabaseSession } from "./_hooks/useSupabaseSession";
+
 export default function page() {
+  const router = useRouter();
+  const token = useSupabaseSession();
+  const { userId, isLoading: isUserLoading } = useUser();
+  const searchParams = useSearchParams();
+  const [haseSeenTutorial, setHasSeenTutorial] = useState(false);
+  const isSkipped = searchParams.get("skipped") === "true";
+  const { data, isLoading: isChecking } = useFetch<{ isNewUser: boolean }>(
+    token ? "/api/check_routine" : null,
+  );
+  useEffect(() => {
+    const completed = localStorage.getItem("tutorial_completed") === "true";
+    if (completed) {
+      setHasSeenTutorial(true);
+    }
+  }, []);
+  useEffect(() => {
+    if (isUserLoading) return;
+    if (!userId) {
+      router.push("/signin");
+      return;
+    }
+    if (isChecking) return;
+    if (data?.isNewUser && !isSkipped && !haseSeenTutorial) {
+      router.push("/tutorial");
+    }
+  }, [
+    userId,
+    isUserLoading,
+    isSkipped,
+    data,
+    isChecking,
+    router,
+    haseSeenTutorial,
+  ]);
+
+  if (isUserLoading || isChecking)
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-black text-white">
+        <p className="animate-pulse font-black text-2xl">Loading now</p>
+      </div>
+    );
   return (
     <div className="w-full p-4 md:max-w-2xl md:mx-auto md:px-0 pb-10">
       <WorkoutInProgressBanner />

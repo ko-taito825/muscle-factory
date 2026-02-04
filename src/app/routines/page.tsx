@@ -11,7 +11,7 @@ export default function MyRoutinePage() {
   const { data, error, isLoading } = useFetch<Routines[]>(
     token ? "/api/routines" : null,
   );
-
+  console.log("error", error);
   if (error) return <div className="text-white p-10">取得に失敗しました</div>;
   if (isLoading)
     return <div className="text-white p-10 text-center">読み込み中...</div>;

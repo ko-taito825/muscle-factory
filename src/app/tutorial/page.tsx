@@ -4,7 +4,10 @@ import React from "react";
 import { Dumbbell, Plus, TableProperties } from "lucide-react";
 export default function page() {
   const router = useRouter();
-
+  const handleSkip = () => {
+    localStorage.setItem("tutorial_completed", "true");
+    router.push("/?skipped=true");
+  };
   const steps = [
     {
       title: "1. ルーティン名の登録",
@@ -128,7 +131,7 @@ export default function page() {
           </div>
           <button
             className="text-zinc-400 hover:text-white text-sm font-bold transition-colors"
-            onClick={() => router.push("/")}
+            onClick={handleSkip}
           >
             スキップ
           </button>
@@ -166,12 +169,13 @@ export default function page() {
             </div>
           </section>
         ))}
+        ß
       </main>
       <div className="fixed bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none z-30">
         <div className="max-w-xl mx-auto pointer-events-auto">
           <button
             className="w-full h-16 bg-yellow-500 text-black rounded-2xl text-xl font-black flex items-center justify-center gap-2 active:scale-95 transition-all shadow-[0_20px_50px_rgba(234,179,8,0.3)]"
-            onClick={() => router.push("/")}
+            onClick={handleSkip}
           >
             LET'S START
           </button>

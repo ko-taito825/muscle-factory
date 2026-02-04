@@ -1,5 +1,4 @@
 "use client";
-
 import { supabase } from "@/utils/supabase";
 import React from "react";
 
@@ -19,18 +18,33 @@ export default function page() {
   const onSubmit = async (data: FormValue) => {
     try {
       const { email, password } = data;
-      const { error } = await supabase.auth.signUp({
+      const { data: authData, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: `http://localhost:3000/login`,
+          emailRedirectTo: `http://localhost:3000/signin`,
         },
       });
       if (error) {
         alert("登録に失敗しました");
-      } else {
-        alert("確認メールを送信しました。");
       }
+      if (authData.user) {
+        const response = await fetch("/api/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            supabaseUserId: authData.user.id,
+          }),
+        });
+        if (!response.ok) {
+          console.error("DBへの保存に失敗しました");
+        }
+      }
+      alert(
+        "確認のメールを送信しました。メール内のリンクをクリックしてください",
+      );
     } catch (error) {
       alert("予期せぬエラーが発生しました。");
     }
