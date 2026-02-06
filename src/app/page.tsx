@@ -9,7 +9,7 @@ import { useUser } from "./_hooks/useUser";
 import { useFetch } from "./_hooks/useFetch";
 import { useSupabaseSession } from "./_hooks/useSupabaseSession";
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const token = useSupabaseSession();
   const { userId, isLoading: isUserLoading } = useUser();

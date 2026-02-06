@@ -9,7 +9,7 @@ type FormValue = {
   email: string;
   password: string;
 };
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextPath = searchParams.get("next") || "/";

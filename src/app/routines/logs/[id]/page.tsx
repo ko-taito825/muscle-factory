@@ -7,7 +7,7 @@ import React from "react";
 import RoutineResultView from "../../_components/RoutineResultView";
 import { WorkoutLog } from "@/app/_types/WorkoutLog";
 
-export default function page() {
+export default function Page() {
   const { id } = useParams();
   const { token } = useSupabaseSession();
   const router = useRouter();

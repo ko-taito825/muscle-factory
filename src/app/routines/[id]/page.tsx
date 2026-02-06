@@ -11,7 +11,7 @@ import TrainingList from "../_components/TrainingList";
 import { workoutLogRequset } from "@/app/_types/WorkoutLog";
 import { RoutineDetail } from "@/app/_types/RoutineDetail";
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const { id } = useParams();
   const searchParams = useSearchParams();

@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 import { Dumbbell, Plus, TableProperties } from "lucide-react";
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const handleSkip = () => {
     localStorage.setItem("tutorial_completed", "true");
