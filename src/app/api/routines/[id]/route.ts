@@ -4,7 +4,6 @@ import { getAuthenticatedDbUserId } from "@/app/_lib/auth";
 import { prisma } from "@/app/_lib/prisma";
 import { RoutineDetail } from "@/app/_types/RoutineDetail";
 import { RoutineFormValues } from "@/app/_types/RoutineValue";
-import { supabase } from "@/utils/supabase";
 import { NextRequest, NextResponse } from "next/server";
 
 //選択されたルーティンの「前回の内容」を取得
@@ -46,7 +45,7 @@ export const GET = async (
       );
     }
     return NextResponse.json<RoutineDetail>(routine, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { message: "取得に失敗しました" },
       { status: 500 },

@@ -9,7 +9,7 @@ type PasswordReset = {
   confirmPassword: string;
 };
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const {
     register,
@@ -31,7 +31,7 @@ export default function page() {
         );
         router.push("/signin");
       }
-    } catch (error) {
+    } catch {
       alert("エラーが発生しました");
     }
   };

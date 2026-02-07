@@ -6,7 +6,7 @@ import { Plus } from "lucide-react";
 import { useSupabaseSession } from "../_hooks/useSupabaseSession";
 import { Routines } from "../_types/Routines";
 
-export default function MyRoutinePage() {
+export default function Page() {
   const { token } = useSupabaseSession();
   const { data, error, isLoading } = useFetch<Routines[]>(
     token ? "/api/routines" : null,

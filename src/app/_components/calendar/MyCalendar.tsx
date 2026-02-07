@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -41,7 +40,7 @@ export default function MyCalendar() {
         });
         const detail = await res.json();
         setDetailLog(detail.routine);
-      } catch (e) {
+      } catch {
         console.error("詳細の取得に失敗しました");
       } finally {
         setIsFetchingDetail(false);

@@ -11,7 +11,7 @@ import TrainingList from "../_components/TrainingList";
 import { workoutLogRequset } from "@/app/_types/WorkoutLog";
 import { RoutineDetail } from "@/app/_types/RoutineDetail";
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const { id } = useParams();
   const searchParams = useSearchParams();
@@ -108,7 +108,7 @@ export default function page() {
 
       alert("今日のトレーニングを記録しました");
       router.push(`/routines/finished/${result.id}`);
-    } catch (e) {
+    } catch {
       alert("更新に失敗しました");
     }
   };

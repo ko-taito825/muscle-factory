@@ -1,13 +1,12 @@
 "use client";
 import { useFetch } from "@/app/_hooks/useFetch";
-import { useLocalStorage } from "@/app/_hooks/useLocalStorage";
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 import { RoutineLogs } from "@/app/_types/RoutineLogs";
 import Link from "next/link";
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import WorkoutInProgressBanner from "../_components/WorkoutInProgressBanner";
 
-export default function page() {
+export default function Page() {
   const { token } = useSupabaseSession();
   const { data, error, isLoading } = useFetch<RoutineLogs[]>(
     token ? "/api/routines" : null,

@@ -2,16 +2,14 @@
 import { useFetch } from "@/app/_hooks/useFetch";
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 import { useParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 import React from "react";
 import RoutineResultView from "../../_components/RoutineResultView";
 import Link from "next/link";
 import { WorkoutLog } from "@/app/_types/WorkoutLog";
 
-export default function page() {
+export default function Page() {
   const { id } = useParams();
   const { token } = useSupabaseSession();
-  const router = useRouter();
 
   const { data, isLoading } = useFetch<{ routine: WorkoutLog }>( //<{ routine: WorkoutLog }>がどういうことか知る
     token ? `/api/workout-logs/${id}` : null,
@@ -27,7 +25,7 @@ export default function page() {
     <div className="min-h-screen bg-black text-white pb-24">
       <div className="w-full p-4 md:max-w-2xl md:mx-auto md:px-0 pb-40 text-white">
         <h1 className="text-yellow-500 text-4xl font-black mb-2 tracking-tighter">
-          Today's Training
+          Today&apos;s Training
         </h1>
         <h2 className="text-2xl font-bold mb-8 text-gray-200">
           {routine.title}

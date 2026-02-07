@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 import RoutineTitleInput from "../_components/RoutineTitleInput";
-import { FormProvider, useFieldArray, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { RoutineFormValues } from "@/app/_types/RoutineValue";
 import { useRouter } from "next/navigation";
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const { token } = useSupabaseSession();
   const methods = useForm<RoutineFormValues>({
@@ -18,7 +18,6 @@ export default function page() {
 
   const onSubmit = async (data: RoutineFormValues) => {
     try {
-      console.log("送信直前のデータ:", data);
       const res = await fetch("/api/routines", {
         method: "POST",
         headers: {

@@ -35,7 +35,7 @@ export const GET = async (request: NextRequest) => {
       orderBy: { createdAt: "desc" },
     });
     return NextResponse.json(fullLogs, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "取得失敗" }, { status: 500 });
   }
 };

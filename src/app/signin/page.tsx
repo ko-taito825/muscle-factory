@@ -2,14 +2,14 @@
 import { supabase } from "@/utils/supabase";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
 import { useForm } from "react-hook-form";
 
 type FormValue = {
   email: string;
   password: string;
 };
-export default function page() {
+function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextPath = searchParams.get("next") || "/";
@@ -32,7 +32,7 @@ export default function page() {
         router.replace(nextPath);
         router.refresh();
       }
-    } catch (error) {
+    } catch {
       alert("予期せぬエラーが発生しました");
     }
   };
@@ -111,5 +111,13 @@ export default function page() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <SignInForm />
+    </Suspense>
   );
 }

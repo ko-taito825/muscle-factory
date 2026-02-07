@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 import { Dumbbell, Plus, TableProperties } from "lucide-react";
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const handleSkip = () => {
     localStorage.setItem("tutorial_completed", "true");
@@ -177,7 +177,7 @@ export default function page() {
             className="w-full h-16 bg-yellow-500 text-black rounded-2xl text-xl font-black flex items-center justify-center gap-2 active:scale-95 transition-all shadow-[0_20px_50px_rgba(234,179,8,0.3)]"
             onClick={handleSkip}
           >
-            LET'S START
+            LET&apos;S START
           </button>
         </div>
       </div>
