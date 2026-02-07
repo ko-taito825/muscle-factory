@@ -25,7 +25,7 @@ export default function Page() {
     <div className="min-h-screen bg-black text-white pb-24">
       <div className="w-full p-4 md:max-w-2xl md:mx-auto md:px-0 pb-40 text-white">
         <h1 className="text-yellow-500 text-4xl font-black mb-2 tracking-tighter">
-          Today's Training
+          Today&apos;s Training
         </h1>
         <h2 className="text-2xl font-bold mb-8 text-gray-200">
           {routine.title}

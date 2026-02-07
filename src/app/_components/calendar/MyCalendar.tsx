@@ -40,7 +40,7 @@ export default function MyCalendar() {
         });
         const detail = await res.json();
         setDetailLog(detail.routine);
-      } catch (e) {
+      } catch {
         console.error("詳細の取得に失敗しました");
       } finally {
         setIsFetchingDetail(false);

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import RoutineTitleInput from "../_components/RoutineTitleInput";
-import { FormProvider, useFieldArray, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { RoutineFormValues } from "@/app/_types/RoutineValue";
 import { useRouter } from "next/navigation";
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";

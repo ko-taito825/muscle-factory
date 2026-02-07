@@ -108,7 +108,7 @@ export default function Page() {
 
       alert("今日のトレーニングを記録しました");
       router.push(`/routines/finished/${result.id}`);
-    } catch (e) {
+    } catch {
       alert("更新に失敗しました");
     }
   };

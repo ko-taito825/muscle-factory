@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import "./globals.css";
 import MyCalendar from "./_components/calendar/MyCalendar";
 import WorkoutInProgressBanner from "./routines/_components/WorkoutInProgressBanner";
@@ -9,7 +9,7 @@ import { useUser } from "./_hooks/useUser";
 import { useFetch } from "./_hooks/useFetch";
 import { useSupabaseSession } from "./_hooks/useSupabaseSession";
 
-export default function Page() {
+function HomeContent() {
   const router = useRouter();
   const token = useSupabaseSession();
   const { userId, isLoading: isUserLoading } = useUser();
@@ -72,5 +72,12 @@ export default function Page() {
         </Link>
       </div>
     </div>
+  );
+}
+export default function Page() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <HomeContent />
+    </Suspense>
   );
 }

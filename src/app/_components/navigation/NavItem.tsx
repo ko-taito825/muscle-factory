@@ -9,7 +9,7 @@ type Props = {
   className?: string;
   label?: string;
 };
-export default function NavItem({ href, icon, label, className = "" }: Props) {
+export default function NavItem({ href, icon, label }: Props) {
   const pathname = usePathname();
   const isActive = pathname === href;
 

@@ -177,7 +177,7 @@ export default function Page() {
             className="w-full h-16 bg-yellow-500 text-black rounded-2xl text-xl font-black flex items-center justify-center gap-2 active:scale-95 transition-all shadow-[0_20px_50px_rgba(234,179,8,0.3)]"
             onClick={handleSkip}
           >
-            LET'S START
+            LET&apos;S START
           </button>
         </div>
       </div>

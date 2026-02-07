@@ -46,7 +46,7 @@ export default function Page() {
       alert(
         "確認のメールを送信しました。メール内のリンクをクリックしてください",
       );
-    } catch (error) {
+    } catch {
       alert("予期せぬエラーが発生しました。");
     }
   };
@@ -59,7 +59,7 @@ export default function Page() {
               Sign Up
             </h1>
             <p className="mt-3 text-lg text-gray-400">
-              Let's create you an account
+              Let&apos;s create you an account
             </p>
           </div>
 
