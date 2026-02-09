@@ -7,7 +7,13 @@ import BottomNav from "./navigation/BottomNav";
 
 export default function LayoutContent({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const hideSidebarPages = ["/signin", "/signup", "/password", "/tutorial"];
+  const hideSidebarPages = [
+    "/signin",
+    "/signup",
+    "/password",
+    "/tutorial",
+    "/forgot-password",
+  ];
   const shouldHideSidebar = hideSidebarPages.includes(pathname);
 
   return (

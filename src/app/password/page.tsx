@@ -25,6 +25,7 @@ export default function Page() {
       });
       if (error) {
         alert("パスワードの更新に失敗しました");
+        console.log("error.message", error.message);
       } else {
         alert(
           "パスワードを更新しました。次回ログインする際は、新しいパスワードでログインしてください",

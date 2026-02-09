@@ -169,7 +169,6 @@ export default function Page() {
             </div>
           </section>
         ))}
-        ß
       </main>
       <div className="fixed bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none z-30">
         <div className="max-w-xl mx-auto pointer-events-auto">

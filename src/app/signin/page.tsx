@@ -91,7 +91,7 @@ function SignInForm() {
 
             <div className="mt-8 pt-6 border-t border-zinc-800 text-center space-y-4">
               <Link
-                href="/password"
+                href="/forgot-password"
                 className="block text-sm text-gray-500 hover:text-yellow-500 transition-colors"
               >
                 Forgot password?
