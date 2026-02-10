@@ -8,7 +8,7 @@ import React, { useEffect } from "react";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import RoutineTitleInput from "../_components/RoutineTitleInput";
 import TrainingList from "../_components/TrainingList";
-import { workoutLogRequset } from "@/app/_types/WorkoutLog";
+import { workoutLogRequest } from "@/app/_types/WorkoutLog";
 import { RoutineDetail } from "@/app/_types/RoutineDetail";
 
 export default function Page() {
@@ -81,7 +81,7 @@ export default function Page() {
 
   const onSubmit = async (data: RoutineFormValues) => {
     try {
-      const cleanedData: workoutLogRequset = {
+      const cleanedData: workoutLogRequest = {
         routineId: Number(id),
         title: data.title, //ログのタイトル（スナップショット）
         trainings: data.trainings.map((training) => ({

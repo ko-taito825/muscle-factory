@@ -91,21 +91,23 @@ function SignInForm() {
 
             <div className="mt-8 pt-6 border-t border-zinc-800 text-center space-y-4">
               <Link
-                href="/password"
+                href="/forgot-password"
                 className="block text-sm text-gray-500 hover:text-yellow-500 transition-colors"
               >
                 Forgot password?
               </Link>
 
-              <p className="text-gray-400 text-sm">
-                Don&apos;t have an account?{" "}
+              <div className="space-y-4 pt-4 border-t border-zinc-800/50">
+                <p className="text-gray-300 text-base font-bold">
+                  初めてご利用の方はこちら
+                </p>
                 <Link
                   href="/signup"
-                  className="text-yellow-500 font-bold hover:text-yellow-400 hover:underline decoration-2 underline-offset-4 transition-all"
+                  className="inline-block w-full rounded-xl border-2 border-yellow-500 bg-yellow-500/5 py-4 text-2xl font-black text-yellow-500 transition-all duration-300 hover:bg-yellow-500 hover:text-black hover:shadow-[0_0_25px_rgba(234,179,8,0.5)] active:scale-95"
                 >
                   Create an account
                 </Link>
-              </p>
+              </div>
             </div>
           </form>
         </div>

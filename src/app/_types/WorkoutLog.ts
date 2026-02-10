@@ -1,4 +1,4 @@
-export interface workoutLogRequset {
+export interface workoutLogRequest {
   routineId: number | null;
   title: string;
   date?: string;

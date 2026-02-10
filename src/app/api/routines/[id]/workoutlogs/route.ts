@@ -1,7 +1,7 @@
 import { getAuthenticatedDbUserId } from "@/app/_lib/auth";
 import { prisma } from "@/app/_lib/prisma";
 import { Routines } from "@/app/_types/Routines";
-import { workoutLogRequset } from "@/app/_types/WorkoutLog";
+import { workoutLogRequest } from "@/app/_types/WorkoutLog";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
@@ -12,10 +12,11 @@ export const POST = async (request: NextRequest) => {
       { status: 401 },
     );
   try {
-    const body: workoutLogRequset = await request.json();
+    const body: workoutLogRequest = await request.json();
     console.log("body", body);
     const { routineId, title, date, trainings } = body;
     const newLog = await prisma.workoutLog.create({
+      //Nested Write
       data: {
         userId,
         routineId,

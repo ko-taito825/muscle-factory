@@ -1,11 +1,11 @@
 "use client";
-import { workoutLogRequset } from "@/app/_types/WorkoutLog";
+import { workoutLogRequest } from "@/app/_types/WorkoutLog";
 import React from "react";
 
 export default function RoutineResultView({
   routine,
 }: {
-  routine: workoutLogRequset;
+  routine: workoutLogRequest;
 }) {
   return (
     <div>
