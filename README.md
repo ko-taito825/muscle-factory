@@ -2,6 +2,21 @@
 
 # ⚡️ muscle-factory
 
+
+<div align="center">
+  <table style="border: none;">
+    <tr>
+      <td align="center" valign="top" style="border: none;">
+        <strong>💻 PC Layout</strong><br />
+        <img src="/" width="500px" alt="PC版スクリーンショット" />
+      </td>
+      <td align="center" valign="top" style="border: none;">
+        <strong>📱 Mobile Layout</strong><br />
+        <img src="ここにスマホ版の画像URL" width="200px" alt="スマホ版スクリーンショット" />
+      </td>
+    </tr>
+  </table>
+</div>
 **日々のトレーニングを「地道に、コツコツ」と可視化する。**
 
 [![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
