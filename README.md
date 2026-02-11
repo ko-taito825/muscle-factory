@@ -1,6 +1,7 @@
-<div align="center">
+<div>
 
 # ⚡️ muscle-factory
+##「今日何をどれくらい頑張ったか」を直感的に記録し、自分の成長を地道に積み上げていくためのトレーニング管理アプリです。シンプルで迷わない操作性を重視して開発しています。
 
 
 <div align="center">
@@ -17,40 +18,17 @@
     </tr>
   </table>
 </div>
-<div>
-  <p>ER図</p>
-  <img width="1245" height="422" alt="スクリーンショット 2026-02-11 9 23 19" src="https://github.com/user-attachments/assets/95fb73ae-f696-4298-b7e9-90d96a303dfe" />
-</div>
-
-**日々のトレーニングを「地道に、コツコツ」と可視化する。**
-
-[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
-
-<p align="center">
-    <br />
-    <a href="あなたのアプリのURLがあればここに"><strong>アプリを試してみる »</strong></a>
-    <br />
-    <br />
-    <a href="#-features">特徴</a>
-    ・
-    <a href="#-tech-stack">使用技術</a>
-    ・
-    <a href="#-getting-started">環境構築</a>
-</p>
 
 </div>
 
----
+## 制作背景
+私⾃⾝筋トレする際に記録を取っています。理由はシンプルで、前回の自分に勝つためです。そのためには前回のトレーニングで何キロを何回上げたのかを知る必要があります。
+基本的に毎回同じ順番でトレーニングをするので、記録する際に毎回トレーニング名を入力するという手間をなんとかできないかと考え、前回のトレーニング名を引き継ぐ仕様にした筋
+トレ管理アプリを制作いたしました。
 
-## 📝 概要
-「今日何をどれくらい頑張ったか」を直感的に記録し、自分の成長を地道に積み上げていくためのトレーニング管理アプリです。シンプルで迷わない操作性を重視して開発しています。
-
-## ✨ Features
+## Features
 * **直感的なログ記録**: 数タップで当日のトレーニング内容を保存
-* **成長の可視化**: 過去のデータを一覧・グラフで確認（実装予定）
+* **成長の可視化**: 過去のデータを一覧・グラフで確認（今後実装予定）
 * **レスポンシブ対応**: ジムでの休憩中にもスマホからサクッと入力可能
 
 ## 🛠 Tech Stack
