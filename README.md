@@ -8,7 +8,7 @@
     <tr>
       <td align="center" valign="top" style="border: none;">
         <strong>💻 PC Layout</strong><br />
-        <img src="/" width="500px" alt="PC版スクリーンショット" />
+        <img width="1710" height="1034" alt="pc img" src="https://github.com/user-attachments/assets/4da8e828-0118-448a-924d-1584e890acfb" />
       </td>
       <td align="center" valign="top" style="border: none;">
         <strong>📱 Mobile Layout</strong><br />
