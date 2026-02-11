@@ -23,7 +23,7 @@ export default function Page() {
         email,
         password,
         options: {
-          emailRedirectTo: `https://muscle-factory-x4lm.vercel.app/`,
+          emailRedirectTo: `https://muscle-factory-ftbe.vercel.app/`,
         },
       });
       if (error) {
