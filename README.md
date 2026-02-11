@@ -13,9 +13,6 @@
       <td align="center" valign="top" style="border: none;">
         <strong>📱 Mobile Layout</strong><br />
         <img width="361" height="771" alt="mobile img" src="https://github.com/user-attachments/assets/fc8dfd3c-3dea-47e0-9527-b977eab6d981" />
-
-      </td>
-    </tr>
   </table>
 </div>
 **日々のトレーニングを「地道に、コツコツ」と可視化する。**
