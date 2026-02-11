@@ -17,6 +17,11 @@
     </tr>
   </table>
 </div>
+<div>
+  <p>ER図</p>
+  <img width="1245" height="422" alt="スクリーンショット 2026-02-11 9 23 19" src="https://github.com/user-attachments/assets/95fb73ae-f696-4298-b7e9-90d96a303dfe" />
+</div>
+
 **日々のトレーニングを「地道に、コツコツ」と可視化する。**
 
 [![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
