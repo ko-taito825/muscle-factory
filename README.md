@@ -1,6 +1,6 @@
 <div>
 
-# ⚡️ muscle-factory
+# ⚡️ Muscle-Factory
 「今日何をどれくらい頑張ったか」を直感的に記録し、自分の成長を地道に積み上げていくためのトレーニング管理アプリです。シンプルで迷わない操作性を重視して開発しています。
 
 
@@ -29,7 +29,9 @@
 
 ## 特徴
 * **直感的なログ記録**: 数タップで当日のトレーニング内容を保存
+
 * **成長の可視化**: 過去のデータを一覧・グラフで確認（今後実装予定）
+  
 * **レスポンシブ対応**: ジムでの休憩中にもスマホからサクッと入力可能
 
 
@@ -40,13 +42,18 @@ https://muscle-factory-ftbe.vercel.app/
 Muscle Factoryでは、型安全で高速な開発を実現するために以下の技術を採用しています。
 
 * **フロントエンド**:Next.js, React, TypeScript, TailwindCSS
+  
 * **バックエンドエンド**:Next.js, Prisma
+  
 * **データベース**:Supabase(PostgreSQL)
+  
 * **認証**:Supabase Auth
+  
 * **デプロイ**:vercel
 
 ## ER図
+<img width="1303" height="406" alt="スクリーンショット 2026-02-12 18 24 58" src="https://github.com/user-attachments/assets/c2fdabe0-ed03-46c7-bbbb-5b29b40c4fbe" />
 
-### 1. リポジトリをクローン
-```bash
-git clone [https://github.com/ko-taito825/muscle-factory.git](https://github.com/ko-taito825/muscle-factory.git)
+## インフラ構成図
+
+
