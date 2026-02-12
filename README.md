@@ -39,11 +39,11 @@ https://muscle-factory-ftbe.vercel.app/
 ## 使用技術
 Muscle Factoryでは、型安全で高速な開発を実現するために以下の技術を採用しています。
 
-フロントエンド：Next.js, React, TypeScript, TailwindCSS
-バックエンド：Next.js, Prisma
-DB：Supabase(PostgreSQL)
-認証周り：Supabase Auth
-デプロイ：vercel
+* **フロントエンド**:Next.js, React, TypeScript, TailwindCSS
+* **バックエンドエンド**:Next.js, Prisma
+* **データベース**:Supabase(PostgreSQL)
+* **認証**:Supabase Auth
+* **デプロイ**:vercel
 
 ## ER図
 
