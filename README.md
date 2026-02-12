@@ -36,17 +36,16 @@
 ## App URL
 https://muscle-factory-ftbe.vercel.app/
 
-## 技術スタック
-このプロジェクトでは、型安全で高速な開発を実現するために以下の技術を採用しています。
+## 使用技術
+Muscle Factoryでは、型安全で高速な開発を実現するために以下の技術を採用しています。
 
-| Category | Technology |
-| :--- | :--- |
-| **Frontend** | React, Next.js (App Router) |
-| **Language** | TypeScript |
-| **Styling** | Tailwind CSS |
-| **Deployment** | Vercel |
+フロントエンド：Next.js, React, TypeScript, TailwindCSS
+バックエンド：Next.js, Prisma
+DB：Supabase(PostgreSQL)
+認証周り：Supabase Auth
+デプロイ：vercel
 
-## 🚀 Getting Started
+## ER図
 
 ### 1. リポジトリをクローン
 ```bash
