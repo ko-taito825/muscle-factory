@@ -1,8 +1,9 @@
 <div>
 
 # ⚡️ Muscle-Factory
-「今日何をどれくらい頑張ったか」を直感的に記録し、自分の成長を地道に積み上げていくためのトレーニング管理アプリです。シンプルで迷わない操作性を重視して開発しています。
+* **App URL**: https://muscle-factory-ftbe.vercel.app/
 
+私は筋トレが大好きです。筋トレ記録管理アプリ「Muscle Factory」を作成しました。👊
 
 <div align="center">
   <table style="border: none;">
@@ -35,8 +36,6 @@
 * **レスポンシブ対応**: ジムでの休憩中にもスマホからサクッと入力可能
 
 
-## App URL
-https://muscle-factory-ftbe.vercel.app/
 
 ## 使用技術
 Muscle Factoryでは、型安全で高速な開発を実現するために以下の技術を採用しています。
@@ -55,5 +54,5 @@ Muscle Factoryでは、型安全で高速な開発を実現するために以下
 <img width="1303" height="406" alt="スクリーンショット 2026-02-12 18 24 58" src="https://github.com/user-attachments/assets/c2fdabe0-ed03-46c7-bbbb-5b29b40c4fbe" />
 
 ## インフラ構成図
-
+<img width="1347" height="531" alt="スクリーンショット 2026-02-12 23 51 04" src="https://github.com/user-attachments/assets/061d6427-47e5-4f47-ad72-0750f613d471" />
 
