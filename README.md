@@ -138,4 +138,4 @@ model Training {
 <img width="100%" src="https://github.com/user-attachments/assets/c2fdabe0-ed03-46c7-bbbb-5b29b40c4fbe" />
 
 ### インフラ構成図
-<img width="100%" src="https://github.com/user-attachments/assets/061d6427-47e5-4f47-ad72-0750f613d471" />
+<img width="1285" height="467" alt="スクリーンショット 2026-02-17 12 06 39" src="https://github.com/user-attachments/assets/a46193a7-25d7-40d2-b4ce-d00a8824b82e" />
