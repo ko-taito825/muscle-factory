@@ -80,6 +80,9 @@ export default function Page() {
   }, [data, reset, id, isResume, draftKey]);
 
   const onSubmit = async (data: RoutineFormValues) => {
+    if (!window.confirm("トレーニングを完了しますか？")) {
+      return;
+    }
     try {
       const cleanedData: workoutLogRequest = {
         routineId: Number(id),
