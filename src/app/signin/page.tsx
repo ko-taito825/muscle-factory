@@ -36,6 +36,22 @@ function SignInForm() {
       alert("予期せぬエラーが発生しました");
     }
   };
+  const handleGuestLogin = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: "guest@example.com",
+        password: "guest-password",
+      });
+      if (error) {
+        alert("ゲストログインに失敗しました。");
+      } else {
+        router.replace(nextPath);
+        router.refresh();
+      }
+    } catch {
+      alert("予期せぬエラーが発生しました");
+    }
+  };
 
   return (
     <div className="min-h-screen w-full bg-black/50">
@@ -108,6 +124,13 @@ function SignInForm() {
                   Create an account
                 </Link>
               </div>
+              <button
+                type="button"
+                onClick={handleGuestLogin}
+                className="mt-2 w-full rounded-xl border border-gray-500 bg-transparent py-3 text-lg font-bold text-gray-300 transition-all duration-300 hover:bg-gray-300 hover:text-black active:scale-95"
+              >
+                ゲストログインで体験する
+              </button>
             </div>
           </form>
         </div>
