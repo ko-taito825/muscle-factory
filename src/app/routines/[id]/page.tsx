@@ -28,12 +28,12 @@ export default function Page() {
     },
   });
   const { isSubmitting, isSubmitSuccessful, isDirty } = methods.formState;
-  const { control, handleSubmit, reset, watch } = methods;
+  const { control, handleSubmit, reset, watch } = methods;//watchを取り出して、36行目で
   const { fields, append, remove } = useFieldArray({
     control,
     name: "trainings",
   });
-  const watchValues = watch();
+  const watchValues = watch();//常に「今の入力情報」が入る。useEffectの依存配列に渡して、変化したらuseEffectを発火
   //送信中、完了後は実行しない処理
   useEffect(() => {
     if (isSubmitting || isSubmitSuccessful || !isDirty) return;
@@ -50,7 +50,7 @@ export default function Page() {
         isResume ||
         window.confirm("編集中のデータが見つかりました。続きから再開しますか？")
       ) {
-        reset(JSON.parse(saveDraft));
+        reset(JSON.parse(saveDraft));//resetで取り出したデータを画面に一気に流し込む
         return;
       } else {
         localStorage.removeItem(draftKey);
