@@ -1,22 +1,26 @@
 "use client";
 import { supabase } from "@/utils/supabase";
 import React from "react";
-
 import { useForm } from "react-hook-form";
 import { UserData } from "../_types/user";
-type FormValue = {
-  email: string;
-  password: string;
-};
+import { SignupFormValue, signupSchema } from "@/schemas/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+// type FormValue = {
+//   email: string;
+//   password: string;
+// };
 
 export default function Page() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormValue>();
+  } = useForm<SignupFormValue>({
+    resolver: zodResolver(signupSchema),
+    mode: "onChange",
+  });
 
-  const onSubmit = async (data: FormValue) => {
+  const onSubmit = async (data: SignupFormValue) => {
     try {
       const { email, password } = data;
       const { data: authData, error } = await supabase.auth.signUp({
@@ -77,7 +81,7 @@ export default function Page() {
                 id="email"
                 placeholder="name@company.com"
                 className="w-full rounded-xl border border-yellow-600/50 bg-black/40 px-4 py-3 text-white placeholder:text-gray-600 focus:border-yellow-500 focus:bg-black/60 focus:outline-none focus:ring-2 focus:ring-yellow-500/20 transition-all duration-300"
-                {...register("email", { required: "Emailは必須です" })}
+                {...register("email")}
               />
               <p className="text-red-500 text-sm">{errors.email?.message}</p>
             </div>
@@ -94,7 +98,7 @@ export default function Page() {
                 id="password"
                 placeholder="......."
                 className="w-full rounded-xl border border-yellow-600/50 bg-black/40 px-4 py-3 text-white placeholder:text-gray-600 focus:border-yellow-500 focus:bg-black/60 focus:outline-none focus:ring-2 focus:ring-yellow-500/20 transition-all duration-300"
-                {...register("password", { required: "passwordは必須です" })}
+                {...register("password")}
               />
               <p className="text-red-500 text-sm">{errors.password?.message}</p>
             </div>
