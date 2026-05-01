@@ -28,7 +28,7 @@ export default function Page() {
     },
   });
   const { isSubmitting, isSubmitSuccessful, isDirty } = methods.formState;
-  const { control, handleSubmit, reset, watch } = methods;//watchを取り出して、36行目で
+  const { control, handleSubmit, reset, watch } = methods;//watchを取り出して、36行目でリアルタイム監視
   const { fields, append, remove } = useFieldArray({
     control,
     name: "trainings",
@@ -37,6 +37,7 @@ export default function Page() {
   //送信中、完了後は実行しない処理
   useEffect(() => {
     if (isSubmitting || isSubmitSuccessful || !isDirty) return;
+    //trainingsが一件以上でもあれば保存する。空欄保存はしない
     if (watchValues.trainings && watchValues.trainings.length > 0) {
       localStorage.setItem(draftKey, JSON.stringify(watchValues));
     }
@@ -56,6 +57,7 @@ export default function Page() {
         localStorage.removeItem(draftKey);
       }
     }
+    //過去のトレーニングログ（workoutLogs）があるか確認、最新の1件（[0]）を取り出す
     const latestLog = data.workoutLogs?.[0];
     if (latestLog) {
       //ログがある場合はその種目をコピー
@@ -105,7 +107,7 @@ export default function Page() {
       });
       if (!res.ok) throw new Error("新規保存失敗");
       localStorage.removeItem(draftKey);
-      localStorage.removeItem(`workout_draft_${id}`); //ここに${id}追加した
+      // localStorage.removeItem(`workout_draft_${id}`); //ここに${id}追加した
 
       const result = await res.json();
 

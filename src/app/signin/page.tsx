@@ -1,14 +1,16 @@
 "use client";
+import { SigninFormValue, signinSchema } from "@/schemas/auth";
 import { supabase } from "@/utils/supabase";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense } from "react";
 import { useForm } from "react-hook-form";
 
-type FormValue = {
-  email: string;
-  password: string;
-};
+// type FormValue = {
+//   email: string;
+//   password: string;
+// };
 function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -18,8 +20,11 @@ function SignInForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormValue>();
-  const onSubmit = async (data: FormValue) => {
+  } = useForm<SigninFormValue>({
+    resolver: zodResolver(signinSchema),
+    mode: "onChange",
+  });
+  const onSubmit = async (data: SigninFormValue) => {
     try {
       const { email, password } = data;
       const { error } = await supabase.auth.signInWithPassword({
@@ -76,7 +81,7 @@ function SignInForm() {
                 id="email"
                 placeholder="name@company.com"
                 className="w-full rounded-xl border border-yellow-600/50 bg-black/40 px-4 py-3 text-white placeholder:text-gray-600 focus:border-yellow-500 focus:bg-black/60 focus:outline-none focus:ring-2 focus:ring-yellow-500/20 transition-all duration-300"
-                {...register("email", { required: "Emailは必須です" })}
+                {...register("email")}
               />
               <p className="text-red-500 text-sm">{errors.email?.message}</p>
             </div>
@@ -93,7 +98,7 @@ function SignInForm() {
                 id="password"
                 placeholder="......."
                 className="w-full rounded-xl border border-yellow-600/50 bg-black/40 px-4 py-3 text-white placeholder:text-gray-600 focus:border-yellow-500 focus:bg-black/60 focus:outline-none focus:ring-2 focus:ring-yellow-500/20 transition-all duration-300"
-                {...register("password", { required: "passwordは必須です" })}
+                {...register("password")}
               />
               <p className="text-red-500 text-sm">{errors.password?.message}</p>
             </div>
