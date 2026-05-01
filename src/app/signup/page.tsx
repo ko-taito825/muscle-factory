@@ -28,6 +28,7 @@ export default function Page() {
       });
       if (error) {
         alert("登録に失敗しました");
+        return;
       }
       if (authData.user) {
         const res = await fetch("/api/users", {

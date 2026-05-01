@@ -1,33 +1,29 @@
 import { prisma } from "@/app/_lib/prisma";
-import { UserData } from "@/app/_types/user";
 import { NextRequest, NextResponse } from "next/server";
-
+import { z, ZodError } from "zod";
+const schema = z.object({
+  supabaseUserId: z.string(),
+});
 export const POST = async (request: NextRequest) => {
   try {
-    const body = (await request.json()) as UserData;
-    const { supabaseUserId } = body;
+    const body = schema.parse(await request.json());
 
-    if (!supabaseUserId) {
-      return NextResponse.json(
-        {
-          message: "supabaseUserIdが必要です",
-        },
-        { status: 400 },
-      );
-    }
     const user = await prisma.user.upsert({
-      where: { supabaseUserId },
+      where: { supabaseUserId: body.supabaseUserId },
       update: {},
       create: {
-        supabaseUserId,
+        supabaseUserId: body.supabaseUserId,
       },
     });
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
     console.error("ユーザー登録エラー", error);
-    return NextResponse.json(
-      { message: "サーバー内部でエラーが発生しました" },
-      { status: 500 },
-    );
+    if (error instanceof ZodError) {
+      return NextResponse.json(
+        { message: "バリデーションエラー" },
+        { status: 400 },
+      );
+    }
+    return NextResponse.json({ message: "サーバーエラー" }, { status: 500 });
   }
 };
