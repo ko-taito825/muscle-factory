@@ -15,7 +15,7 @@ export default function RoutineTitleInput() {
       </label>
       <input
         type="text"
-        {...register("title", { required: "タイトルを入力してください" })}
+        {...register("title")}
         placeholder="タイトル名"
         className={`w-full bg-black/30 border-2 border-yellow-500 rounded-xl px-4 py-3 text-white focus:outline-none placeholder:text-gray-700 font-bold text-lg transition-all focus:bg-black/50 ${errors.title ? "border-red-500" : "border-yellow-500"}`}
       />

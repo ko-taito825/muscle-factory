@@ -3,6 +3,7 @@ import React from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import SetRow from "./SetRow";
 import { Plus, Trash2 } from "lucide-react";
+import { WorkoutRoutineForm } from "@/schemas/routine";
 
 interface TrainingCardProps {
   index: number;
@@ -10,7 +11,11 @@ interface TrainingCardProps {
 }
 
 export default function TrainingCard({ index, onRemove }: TrainingCardProps) {
-  const { register, control } = useFormContext();
+  const {
+    register,
+    control,
+    formState: { errors },
+  } = useFormContext<WorkoutRoutineForm>();
 
   const {
     fields: setFields,
@@ -26,10 +31,16 @@ export default function TrainingCard({ index, onRemove }: TrainingCardProps) {
         <span>{index + 1}種目目</span>
       </div>
       <input
-        {...register(`trainings.${index}.title`)} //training配列のindex番目にあるnameという場所に保存してという意味
+        {...register(`trainings.${index}.title`)}
         placeholder="種目名を追加"
         className="bg-transparent border-b-2 border-gray-600 text-gray-200 font-bold text-xl pb-1 focus:outline-none focus:border-yellow-500 transition-all placeholder:text-gray-600"
       />
+
+      {errors.trainings?.[index]?.title && (
+        <p className="text-red-500 text-sm font-bold mt-2">
+          {errors.trainings[index]?.title?.message as string}
+        </p>
+      )}
       <div className="space-y-1">
         {setFields.map((field, setIndex) => (
           <SetRow
