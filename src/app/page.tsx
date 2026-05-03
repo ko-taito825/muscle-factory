@@ -5,20 +5,17 @@ import MyCalendar from "./_components/calendar/MyCalendar";
 import WorkoutInProgressBanner from "./routines/_components/WorkoutInProgressBanner";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useUser } from "./_hooks/useUser";
 import { useFetch } from "./_hooks/useFetch";
 import { useSupabaseSession } from "./_hooks/useSupabaseSession";
+import { supabase } from "@/utils/supabase";
 
 function HomeContent() {
   const router = useRouter();
-  const token = useSupabaseSession();
-  const { userId, isLoading: isUserLoading } = useUser();
+  const { session, isLoading } = useSupabaseSession();
   const searchParams = useSearchParams();
-  const [haseSeenTutorial, setHasSeenTutorial] = useState(false);
+  const [hasSeenTutorial, setHasSeenTutorial] = useState(false);
   const isSkipped = searchParams.get("skipped") === "true";
-  const { data, isLoading: isChecking } = useFetch<{ isNewUser: boolean }>(
-    token ? "/api/check_routine" : null,
-  );
+  const { data } = useFetch<{ isNewUser: boolean }>("/api/check_routine");
   useEffect(() => {
     const completed = localStorage.getItem("tutorial_completed") === "true";
     if (completed) {
@@ -26,26 +23,14 @@ function HomeContent() {
     }
   }, []);
   useEffect(() => {
-    if (isUserLoading) return;
-    if (!userId) {
-      router.push("/signin");
-      return;
-    }
-    if (isChecking) return;
-    if (data?.isNewUser && !isSkipped && !haseSeenTutorial) {
+    if (isLoading) return;
+    if (!session) return;
+    if (data?.isNewUser && !isSkipped && !hasSeenTutorial) {
       router.push("/tutorial");
     }
-  }, [
-    userId,
-    isUserLoading,
-    isSkipped,
-    data,
-    isChecking,
-    router,
-    haseSeenTutorial,
-  ]);
+  }, [isSkipped, data, isLoading, session, router, hasSeenTutorial]);
 
-  if (isUserLoading || isChecking)
+  if (isLoading)
     return (
       <div className="flex items-center justify-center min-h-screen bg-black text-white">
         <p className="animate-pulse font-black text-2xl">Loading now</p>
@@ -54,6 +39,18 @@ function HomeContent() {
   return (
     <div className="w-full p-4 md:max-w-2xl md:mx-auto md:px-0 pb-10">
       <WorkoutInProgressBanner />
+      <h1
+        className="
+  text-yellow-500
+  text-3xl md:text-5xl
+  font-black
+  tracking-tight
+  text-center
+  mt-6 mb-4
+"
+      >
+        MUSCLE FACTORY
+      </h1>
       <MyCalendar />
       <div className="flex flex-col items-center w-full px-4">
         <Link
@@ -62,14 +59,24 @@ function HomeContent() {
         >
           TRAINING START
         </Link>
-        <Link
-          href="/tutorial"
-          className="flex items-center gap-1.5 text-zinc-500 hover:text-yellow-500 transition-all group pt-3 pb-2 mb-4"
-        >
-          <span className="text-[11px] font-bold tracking-wider">
+        <div className="flex items-center justify-center gap-6 pt-3 pb-2 mb-4">
+          <Link
+            href="/tutorial"
+            className="text-[11px] font-bold tracking-wider text-zinc-500 hover:text-yellow-500 transition-all"
+          >
             使い方を確認する
-          </span>
-        </Link>
+          </Link>
+
+          <button
+            onClick={async () => {
+              await supabase.auth.signOut();
+              router.replace("/signin");
+            }}
+            className="text-[11px] font-bold tracking-wider text-zinc-500 hover:text-yellow-500 transition-all"
+          >
+            ログアウト
+          </button>
+        </div>
       </div>
     </div>
   );
