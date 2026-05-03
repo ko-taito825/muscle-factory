@@ -1,7 +1,6 @@
 "use client";
 import { useFetch } from "@/app/_hooks/useFetch";
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
-import { RoutineFormValues } from "@/app/_types/RoutineValue";
 import { useParams, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -10,6 +9,8 @@ import RoutineTitleInput from "../_components/RoutineTitleInput";
 import TrainingList from "../_components/TrainingList";
 import { workoutLogRequest } from "@/app/_types/WorkoutLog";
 import { RoutineDetail } from "@/app/_types/RoutineDetail";
+import { WorkoutRoutineForm, workoutRoutineSchema } from "@/schemas/routine";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function Page() {
   const router = useRouter();
@@ -21,19 +22,21 @@ export default function Page() {
   const { data, isLoading } = useFetch<RoutineDetail>(
     token ? `/api/routines/${id}` : null,
   );
-  const methods = useForm<RoutineFormValues>({
+  const methods = useForm<WorkoutRoutineForm>({
+    resolver: zodResolver(workoutRoutineSchema),
+    mode: "onChange",
     defaultValues: {
       title: "",
       trainings: [],
     },
   });
   const { isSubmitting, isSubmitSuccessful, isDirty } = methods.formState;
-  const { control, handleSubmit, reset, watch } = methods;//watchを取り出して、36行目でリアルタイム監視
+  const { control, handleSubmit, reset, watch } = methods; //watchを取り出して、36行目でリアルタイム監視
   const { fields, append, remove } = useFieldArray({
     control,
     name: "trainings",
   });
-  const watchValues = watch();//常に「今の入力情報」が入る。useEffectの依存配列に渡して、変化したらuseEffectを発火
+  const watchValues = watch(); //常に「今の入力情報」が入る。useEffectの依存配列に渡して、変化したらuseEffectを発火
   //送信中、完了後は実行しない処理
   useEffect(() => {
     if (isSubmitting || isSubmitSuccessful || !isDirty) return;
@@ -51,7 +54,7 @@ export default function Page() {
         isResume ||
         window.confirm("編集中のデータが見つかりました。続きから再開しますか？")
       ) {
-        reset(JSON.parse(saveDraft));//resetで取り出したデータを画面に一気に流し込む
+        reset(JSON.parse(saveDraft)); //resetで取り出したデータを画面に一気に流し込む
         return;
       } else {
         localStorage.removeItem(draftKey);
@@ -81,7 +84,7 @@ export default function Page() {
     }
   }, [data, reset, id, isResume, draftKey]);
 
-  const onSubmit = async (data: RoutineFormValues) => {
+  const onSubmit = async (data: WorkoutRoutineForm) => {
     if (!window.confirm("トレーニングを完了しますか？")) {
       return;
     }

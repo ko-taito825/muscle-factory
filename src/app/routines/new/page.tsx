@@ -2,21 +2,21 @@
 import React from "react";
 import RoutineTitleInput from "../_components/RoutineTitleInput";
 import { FormProvider, useForm } from "react-hook-form";
-import { RoutineFormValues } from "@/app/_types/RoutineValue";
 import { useRouter } from "next/navigation";
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
+import { CreateRoutineForm, createRoutineSchema } from "@/schemas/routine";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function Page() {
   const router = useRouter();
   const { token } = useSupabaseSession();
-  const methods = useForm<RoutineFormValues>({
-    defaultValues: {
-      title: "",
-    },
+  const methods = useForm<CreateRoutineForm>({
+    resolver: zodResolver(createRoutineSchema),
+    mode: "onChange",
   });
   const { handleSubmit, setError } = methods;
 
-  const onSubmit = async (data: RoutineFormValues) => {
+  const onSubmit = async (data: CreateRoutineForm) => {
     try {
       const res = await fetch("/api/routines", {
         method: "POST",
