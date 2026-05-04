@@ -16,7 +16,7 @@ const isSameDay = (a: Date, b: Date) =>
 export default function MyCalendar() {
   const { token } = useSupabaseSession();
   const { data: summaryLogs, isLoading } = useFetch<Routines[]>(
-    token ? "/api/workout-logs?mode=summary" : null,
+    "/api/workout-logs?mode=summary",
   );
 
   const [detailLog, setDetailLog] = useState<WorkoutLog | null>(null); //トレーニングの詳細表示
@@ -53,7 +53,7 @@ export default function MyCalendar() {
   const getTitleContent = ({ date, view }: { date: Date; view: string }) => {
     if (view !== "month" || !summaryLogs) return null;
     const log = summaryLogs.find((l) => isSameDay(new Date(l.createdAt), date));
-    return log ? <div className="text-red-600">{log.title}</div> : null;
+    return log ? <div className="routine-label">{log.title}</div> : null;
   };
   if (isLoading) return <div>読み込み中...</div>;
 
