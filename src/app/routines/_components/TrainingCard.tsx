@@ -4,6 +4,7 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import SetRow from "./SetRow";
 import { Plus, Trash2 } from "lucide-react";
 import { WorkoutRoutineForm } from "@/schemas/routine";
+import ConfirmDeleteButton from "../../_components/ConfirmDeleteButton";
 
 interface TrainingCardProps {
   index: number;
@@ -64,13 +65,7 @@ export default function TrainingCard({ index, onRemove }: TrainingCardProps) {
         </button>
       </div>
       <div className="flex justify-end items-center mt-6 pt-4">
-        <button
-          type="button"
-          onClick={onRemove}
-          className="text-gray-500 hover:text-red-500 p-2 transition-colors"
-        >
-          <Trash2 size={24} />
-        </button>
+        <ConfirmDeleteButton onConfirm={onRemove} type="trash" />
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ interface Props {
 }
 export default function RoutineDetailCard({ detail, loading }: Props) {
   if (loading) {
-    return <div>Loading</div>;
+    return <div>Tracking progress…</div>;
   }
   if (!detail) return <div>トレーニング詳細がありません</div>;
   return (

@@ -2,8 +2,9 @@
 
 import { WorkoutRoutineForm } from "@/schemas/routine";
 import { MinusCircle } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
+import ConfirmDeleteButton from "../../_components/ConfirmDeleteButton";
 
 interface SetRowProps {
   trainingIndex: number;
@@ -20,7 +21,7 @@ export default function SetRow({
     register,
     formState: { errors },
   } = useFormContext<WorkoutRoutineForm>();
-
+  const [confirming, setConfirming] = useState(false);
   const weightName =
     `trainings.${trainingIndex}.sets.${setIndex}.weight` as const;
   const repsName = `trainings.${trainingIndex}.sets.${setIndex}.reps` as const;
@@ -72,13 +73,7 @@ export default function SetRow({
         )}
       </div>
 
-      <button
-        type="button"
-        onClick={onRemove}
-        className="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-red-500 mt-1"
-      >
-        <MinusCircle size={20} />
-      </button>
+      <ConfirmDeleteButton onConfirm={onRemove} type="minus" />
     </div>
   );
 }

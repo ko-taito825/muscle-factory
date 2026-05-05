@@ -55,7 +55,7 @@ export default function MyCalendar() {
     const log = summaryLogs.find((l) => isSameDay(new Date(l.createdAt), date));
     return log ? <div className="routine-label">{log.title}</div> : null;
   };
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div>Tracking progress…</div>;
 
   return (
     <div className="flex flex-col items-center w-full pt-12 pb-8 px-4">
