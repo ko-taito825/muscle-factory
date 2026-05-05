@@ -18,22 +18,10 @@ export const GET = async (
         ? { routineId: parseInt(id), userId }
         : { id: parseInt(id), userId },
       orderBy: { createdAt: "desc" },
-      select: {
-        id: true,
-        title: true,
-        date: true,
-        createdAt: true,
+      include: {
         trainings: {
-          select: {
-            id: true,
-            title: true,
-            sets: {
-              select: {
-                id: true,
-                weight: true,
-                reps: true,
-              },
-            },
+          include: {
+            sets: true,
           },
         },
       },
