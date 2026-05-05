@@ -9,7 +9,7 @@ export default function RoutineResultView({
 }) {
   return (
     <div>
-      <div className="space-y-8 pb-40">
+      <div className="space-y-8 pb-16">
         {routine.trainings.map((training, trainingIndex) => (
           <div
             key={trainingIndex}
