@@ -69,4 +69,5 @@ model WorkoutLog {
   trainings Training[]
   routine   Routine?   @relation(fields: [routineId], references: [id])
   routineId Int?
+   @@index([userId, routineId, createdAt])
 }
