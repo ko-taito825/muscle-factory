@@ -1,5 +1,4 @@
 # ⚡️ Muscle-Factory (筋トレ記録管理アプリ)
-> 私は筋トレが大好きです👊トレーニング歴はかれこれ4年目になります。
 
 * **App URL**: [https://muscle-factory-ftbe.vercel.app/](https://muscle-factory-ftbe.vercel.app/)
 
