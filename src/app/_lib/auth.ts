@@ -11,13 +11,10 @@ export async function getAuthenticatedDbUserId(
     return null;
   }
   try {
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.getUser(token);
-    if (error || !user) return null;
+    const { data, error } = await supabase.auth.getClaims(token);
+    if (error || !data?.claims) return null;
     const dbUser = await prisma.user.findUnique({
-      where: { supabaseUserId: user.id },
+      where: { supabaseUserId: data.claims.sub },
     });
     return dbUser ? dbUser.id : null;
   } catch (error) {
