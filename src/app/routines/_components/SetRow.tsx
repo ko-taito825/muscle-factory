@@ -1,8 +1,7 @@
 "use client";
 
 import { WorkoutRoutineForm } from "@/schemas/routine";
-import { MinusCircle } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 import { useFormContext } from "react-hook-form";
 import ConfirmDeleteButton from "../../_components/ConfirmDeleteButton";
 
@@ -21,7 +20,6 @@ export default function SetRow({
     register,
     formState: { errors },
   } = useFormContext<WorkoutRoutineForm>();
-  const [confirming, setConfirming] = useState(false);
   const weightName =
     `trainings.${trainingIndex}.sets.${setIndex}.weight` as const;
   const repsName = `trainings.${trainingIndex}.sets.${setIndex}.reps` as const;

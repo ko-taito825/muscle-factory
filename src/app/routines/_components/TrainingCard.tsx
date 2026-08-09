@@ -2,7 +2,7 @@
 import React from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import SetRow from "./SetRow";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus } from "lucide-react";
 import { WorkoutRoutineForm } from "@/schemas/routine";
 import ConfirmDeleteButton from "../../_components/ConfirmDeleteButton";
 

@@ -7,10 +7,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense } from "react";
 import { useForm } from "react-hook-form";
 
-// type FormValue = {
-//   email: string;
-//   password: string;
-// };
 function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();

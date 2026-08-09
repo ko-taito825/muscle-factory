@@ -39,11 +39,9 @@ export default function Page() {
 
   return (
     <div className="min-h-screen relative">
-      <div className="w-full p-4 md:max-w-2xl md:mx-auto md:px-0">
-        <WorkoutInProgressBanner />
-      </div>
-
       <div className="w-full p-4 md:max-w-2xl md:mx-auto md:px-0 pb-40 text-white">
+        <WorkoutInProgressBanner />
+
         <h1 className="text-yellow-500 text-4xl font-black tracking-tighter mb-12">
           My Logs
         </h1>
@@ -60,7 +58,7 @@ export default function Page() {
           ))}
 
           {latestRoutines.length === 0 && (
-            <p className="text-gray-500 text-center py-4 font-bold  tracking-widest">
+            <p className="text-gray-500 text-center py-4 font-bold tracking-widest">
               ルーティンが見つかりません
             </p>
           )}
